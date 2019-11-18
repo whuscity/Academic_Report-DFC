@@ -6,18 +6,20 @@ import pymysql
 import random
 from bs4 import BeautifulSoup
 from urllib import parse
+from fnmatch import fnmatch,fnmatchcase #通配符匹配
 
 #引入正文提取函数
 from crawler.Html2Article import get_article
 #引入存储数据库的方法
 from crawler.save_to_mysql import save_to_database
 save = save_to_database()
+startid = 1610
 
+#以下connect以及save_to_mysql都需要更改数据库参数
 def get_enterURL_from_mysql():
-    conn = pymysql.connect(host='localhost', port=3306, user='root', passwd='123456', db='test',charset='utf8')
+    conn = pymysql.connect(host='localhost', port=3306, user='crawler001', passwd='123456', db='acarep_crawler',charset='utf8mb4')
     cursor = conn.cursor()
-    #下一个181
-    sql = 'select * from enter_urls where id = 1343'
+    sql = 'select * from enter_urls where id >= '+str(startid) #从这里设定开始ID
     cursor.execute(sql)
     data=cursor.fetchall()
     return data
@@ -86,23 +88,28 @@ def get_listURLs(data):
 
         university = data[i][1].strip()
         school = data[i][2].strip()
-        first_page = data[i][3].strip()
-        second_page = data[i][4].strip()
-        detail_model = data[i][5].strip()
+        first_page = data[i][3]
+        second_page = data[i][4]
+        detail_model = data[i][5]           # 详情页模式，采用通配符
+        signal_rank = data[i][6]            # 列表页url变化规律，0为升序，1为降序 ，2为其他
+        signal_var = data[i][7]             # 列表页url如有绑定字段，在此处记录
+        signal_max = data[i][8]             # 列表页在最初采集时的规模（列表页页数）
+
         print('正在爬取：', university, school, '的学术报告信息')
 
         #从数据库读取的当前一条信息
         tmp_info = [university, school, first_page, second_page, detail_model]
 
-        if is_dynamic_page(first_page):
+        if first_page == '':
+            print('入口网址信息为空')
+            save.save_emptyURL(tmp_info)
+            print('')
+
+        elif is_dynamic_page(first_page):
             print('动态加载页面，需要单独处理:', first_page)
             #dynamic_urls = tmp_info[:]
             print('')
             save.save_dynamicURL(tmp_info)
-        elif first_page=='':
-            print('入口网址信息为空')
-            save.save_emptyURL(tmp_info)
-            print('')
         else:
             #列表页第一页的链接
             first_page_info=[university,school,data[i][3],detail_model]
@@ -115,26 +122,27 @@ def get_listURLs(data):
                 academic_urls_first_page = get_academic_urls(first_page, detail_model, soup)
                 academic_urls.extend(academic_urls_first_page)
 
+
+
                 #根据列表页第二页中的数字生成全部列表页
+                r = re.compile('[0-9]+(?=[^0-9]*$)')
                 if second_page != '':
-                    #单独检查替换后数字为1的链接是否有效
-
-                    # 后两行的只能匹配链接最末尾的数字
-                    r = re.compile('[0-9]+(?=[^0-9]*$)')
+                    # #单独检查替换后数字为1的链接是否有效
+                    # # 后两行的只能匹配链接最末尾的数字
                     new_url = r.sub('1', second_page)
-
-                    # #先匹配全部数字，返回列表，再自己选择位置替换
-                    # r = re.findall('[0-9]+', second_page)
-                    # new_url = second_page.replace(str(r[-2]),'1', 1)
+                    #
+                    # # #先匹配全部数字，返回列表，再自己选择位置替换
+                    # # r = re.findall('[0-9]+', second_page)
+                    # # new_url = second_page.replace(str(r[-2]),'1', 1)
                     try:
-                        # # 随机选择一个代理
-                        # proxy = random.choice(proxy_list)
-                        #
-                        # # 使用选择的代理构建代理处理器对象
-                        # httpproxy_handler = urllib.request.ProxyHandler(proxy)
-                        # opener = urllib.request.build_opener(httpproxy_handler)
-                        # request = urllib.request.Request(new_url, headers=get_headers())
-                        # response = opener.open(request)
+                        #     # # 随机选择一个代理
+                        #     # proxy = random.choice(proxy_list)
+                        #     #
+                        #     # # 使用选择的代理构建代理处理器对象
+                        #     # httpproxy_handler = urllib.request.ProxyHandler(proxy)
+                        #     # opener = urllib.request.build_opener(httpproxy_handler)
+                        #     # request = urllib.request.Request(new_url, headers=get_headers())
+                        #     # response = opener.open(request)
                         header = {"User-Agent": "Mozilla5.0 (Windows NT 6.1; WOW64; rv:59.0) Gecko/20100101 Firefox/59.0"}
                         request = urllib.request.Request(new_url, headers=header)
                         response = urllib.request.urlopen(request, timeout=10)
@@ -146,10 +154,12 @@ def get_listURLs(data):
                     except:
                         print('替换末位数字为1的列表页链接无效')
 
-                    #通过循环生成数字大于1的列表页
-                    j=2
-                    while j<60:
-                        r = re.compile('[0-9]+(?=[^0-9]*$)')
+                    #通过循环生成非首页列表页
+                    second_num = r.findall(second_page)
+                    if signal_rank == 0:    j = signal_max  #升序：（时间顺序）“反爬”，从最后一页开始
+                    elif signal_rank == 1:  j = 1           #降序：（时间顺序）“反爬”，从最后一页开始
+                    else:print("特殊情况：" + university, school)
+                    while j <= signal_max and j > 0:
                         tmp_url = r.sub(str(j), second_page)
                         # r = re.findall('[0-9]+', second_page)
                         # tmp_url = second_page.replace(str(r[-2]), str(j), 1)
@@ -172,11 +182,16 @@ def get_listURLs(data):
                             soup = BeautifulSoup(response, 'html.parser')
                             academic_urls_one_page = get_academic_urls(tmp_url, detail_model, soup)
                             academic_urls.extend(academic_urls_one_page)
-
                             list_urls.append([university, school, tmp_url, detail_model])
-                            j+=1
+
+                            if signal_rank == 0:
+                                j -= 1
+                                if j==1:break
+                            elif signal_rank == 1:  j += 1
+                            print(j+",",end="")
+
                         except:
-                            break
+                            continue
                 #去重
                 academic_urls = list(set(academic_urls))
                 academic_info ,error_info = get_academic_text(university,school,academic_urls)
@@ -185,7 +200,7 @@ def get_listURLs(data):
                 # print(academic_urls)
                 # print(len(academic_urls))
                 # print(academic_info)
-                print(first_page,len(academic_info),'条')
+                # print(first_page,len(academic_info),'条')
 
 
                 if len(academic_info)==0:
@@ -222,7 +237,7 @@ def get_academic_urls(page_url,detail_model,soup):
     #列表去重
     all_links=list(set(all_links))
     for current_url in all_links:
-        if detail_model in current_url:
+        if fnmatch(current_url,detail_model):
             academic_urls.append(current_url)
     academic_urls = list(set(academic_urls))
     return academic_urls

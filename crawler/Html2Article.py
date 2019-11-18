@@ -74,7 +74,7 @@ def html2Article(html_file):
         if len(oneLine) > threshold_of_article:
             #print(oneLine)
             result_data.append(oneLine.strip())
-    print(result_data)
+    # print(result_data)
     return result_data
 
 def get_article(academic_url):
