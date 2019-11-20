@@ -31,5 +31,7 @@ D.运行主程序
 
 
 ### 数据库的结构设计，具体见doc
-
+mario的academic_info主键从1开始递增
+stacy的academic_info主键从10000开始递增
+gary的academic_info主键从20000开始递增
 
