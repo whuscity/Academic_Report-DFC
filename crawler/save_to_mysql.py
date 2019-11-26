@@ -46,7 +46,7 @@ class save_to_database(object):
     def save_error_info(self,data_list):
         conn = pymysql.connect(host=hostD, port=portD, user=userD, passwd=passwdD, db=dbD, charset=charsetD)  # 基本的本机MYSQL配置
         cursor = conn.cursor()
-        sql = "insert into error_info (university,school,academic_url) VALUES (%s,%s,%s)"
+        sql = "insert into error_info VALUES (%s,%s,%s)"
         cursor.executemany(sql, data_list)
         conn.commit()
         conn.close()
@@ -55,21 +55,7 @@ class save_to_database(object):
     def save_academic_info(self,data_list):
         conn = pymysql.connect(host=hostD, port=portD, user=userD, passwd=passwdD, db=dbD, charset=charsetD)  # 基本的本机MYSQL配置
         cursor = conn.cursor()
-        sql = "insert into academic_info (university,school,academic_url,detail_text) VALUES (%s,%s,%s,%s)"
+        sql = "insert into academic_info VALUES (%s,%s,%s,%s)"
         cursor.executemany(sql, data_list)
         conn.commit()
         conn.close()
-
-    # 判断是否爬取过
-    def upload(self,url):
-        conn = pymysql.connect(host=hostD, port=portD, user=userD, passwd=passwdD, db=dbD,
-                               charset=charsetD)
-        cursor = conn.cursor()
-        sql = 'select id from academic_info where academic_url="{}"'.format(url)  # url唯一所以可以用作条件进行查询
-        cursor.execute(sql)
-        data = cursor.fetchall()
-        if data:  # 如果存在就证明重复，不进行保存操作，返回False
-            print(url, '已经爬取过。。。')
-            return False
-        else:
-            return True
