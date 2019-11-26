@@ -13,7 +13,7 @@ from crawler.Html2Article import get_article
 #引入存储数据库的方法
 from crawler.save_to_mysql import save_to_database
 save = save_to_database()
-startid = 1610
+startid = 2005
 
 #以下connect以及save_to_mysql都需要更改数据库参数
 def get_enterURL_from_mysql():
@@ -46,19 +46,21 @@ def get_headers():
     return headers
 
 #判断是否为动态页面
-def is_dynamic_page(url):
-    if url.find('jsp?') >= 0:
-        return True
-    # elif url.find('php?') >= 0:
-    #     return True
-    elif url.find('aspx?') >= 0:
-        return True
-    # elif url.find('asp?') >= 0:
-    #     return True
-    elif url.find('html?') >= 0:
-        return True
-    elif url.find('list?') >= 0:
-        return True
+def is_dynamic_page(url,signal_var):
+    if signal_var is not None:return False
+    elif url is not None:
+        if url.find('jsp?') >= 0:
+            return True
+        # elif url.find('php?') >= 0:
+        #     return True
+        elif url.find('aspx?') >= 0:
+            return True
+        # elif url.find('asp?') >= 0:
+        #     return True
+        elif url.find('html?') >= 0:
+            return True
+        elif url.find('list?') >= 0:
+            return True
 
 #生成全部的列表页url，并获取学术详情页的链接和文本内容
 def get_listURLs(data):
@@ -105,7 +107,7 @@ def get_listURLs(data):
             save.save_emptyURL(tmp_info)
             print('')
 
-        elif is_dynamic_page(first_page):
+        elif is_dynamic_page(first_page,signal_var):
             print('动态加载页面，需要单独处理:', first_page)
             #dynamic_urls = tmp_info[:]
             print('')
@@ -126,7 +128,7 @@ def get_listURLs(data):
 
                 #根据列表页第二页中的数字生成全部列表页
                 r = re.compile('[0-9]+(?=[^0-9]*$)')
-                if second_page != '':
+                if second_page is not None:
                     # #单独检查替换后数字为1的链接是否有效
                     # # 后两行的只能匹配链接最末尾的数字
                     new_url = r.sub('1', second_page)
@@ -183,19 +185,16 @@ def get_listURLs(data):
                             academic_urls_one_page = get_academic_urls(tmp_url, detail_model, soup)
                             academic_urls.extend(academic_urls_one_page)
                             list_urls.append([university, school, tmp_url, detail_model])
-
                             if signal_rank == 0:
                                 j -= 1
                                 if j==1:break
                             elif signal_rank == 1:  j += 1
-                            print(j+",",end="")
 
                         except:
                             continue
                 #去重
                 academic_urls = list(set(academic_urls))
                 academic_info ,error_info = get_academic_text(university,school,academic_urls)
-
                 # print(list_urls)
                 # print(academic_urls)
                 # print(len(academic_urls))
@@ -212,7 +211,6 @@ def get_listURLs(data):
                     save.save_academic_info(academic_info)
                     save.save_listURLs(list_urls)
                     save.save_error_info(error_info)
-                    print('')
 
             except Exception as e:  # 抛出异常
                 save.save_refusedURLS(tmp_info)
@@ -247,6 +245,7 @@ def get_academic_text(university,school,academic_urls):
     error_info=[]
     # i=0
     for url in academic_urls:
+        if not save.upload(url):continue
         # time.sleep(0.5)
         # print("进度:{0}%".format(round((i + 1) * 100 / len(academic_urls))), end="\r")
         # i+=1
