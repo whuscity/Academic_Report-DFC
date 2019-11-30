@@ -13,13 +13,15 @@ from crawler.Html2Article import get_article
 #引入存储数据库的方法
 from crawler.save_to_mysql import save_to_database
 save = save_to_database()
-startid = 2005
+startid =1
 
 #以下connect以及save_to_mysql都需要更改数据库参数
 def get_enterURL_from_mysql():
-    conn = pymysql.connect(host='localhost', port=3306, user='crawler001', passwd='123456', db='acarep_crawler',charset='utf8mb4')
+    conn = pymysql.connect(host='localhost', port=3306, user='user', passwd='password', db='dbname',charset='utf8mb4')
     cursor = conn.cursor()
-    sql = 'select * from enter_urls where id >= '+str(startid) #从这里设定开始ID
+    #sql = 'select * from enter_urls where id >= '+str(startid) #从这里设定开始ID
+    sql='select * from enter_urls where id BETWEEN 69 and 92'
+    #sql = 'select * from enter_urls where id =5'
     cursor.execute(sql)
     data=cursor.fetchall()
     return data
@@ -88,10 +90,11 @@ def get_listURLs(data):
         academic_info=[]
         error_info=[]
 
+        id = data[i][0]                       #学校和学院对应的id
         university = data[i][1].strip()
         school = data[i][2].strip()
-        first_page = data[i][3]
-        second_page = data[i][4]
+        first_page = data[i][3]              #第一页
+        second_page = data[i][4]            #第二页
         detail_model = data[i][5]           # 详情页模式，采用通配符
         signal_rank = data[i][6]            # 列表页url变化规律，0为升序，1为降序 ，2为其他
         signal_var = data[i][7]             # 列表页url如有绑定字段，在此处记录
@@ -100,7 +103,7 @@ def get_listURLs(data):
         print('正在爬取：', university, school, '的学术报告信息')
 
         #从数据库读取的当前一条信息
-        tmp_info = [university, school, first_page, second_page, detail_model]
+        tmp_info = [id, first_page, second_page, detail_model]
 
         if first_page == '':
             print('入口网址信息为空')
@@ -114,7 +117,7 @@ def get_listURLs(data):
             save.save_dynamicURL(tmp_info)
         else:
             #列表页第一页的链接
-            first_page_info=[university,school,data[i][3],detail_model]
+            first_page_info=[id,first_page,detail_model]
             list_urls.append(first_page_info)
             try:
                 header = {"User-Agent": "Mozilla5.0 (Windows NT 6.1; WOW64; rv:59.0) Gecko/20100101 Firefox/59.0"}
@@ -123,8 +126,6 @@ def get_listURLs(data):
                 soup = BeautifulSoup(response, 'html.parser')
                 academic_urls_first_page = get_academic_urls(first_page, detail_model, soup)
                 academic_urls.extend(academic_urls_first_page)
-
-
 
                 #根据列表页第二页中的数字生成全部列表页
                 r = re.compile('[0-9]+(?=[^0-9]*$)')
@@ -152,16 +153,20 @@ def get_listURLs(data):
                         academic_urls_one_page = get_academic_urls(new_url, detail_model, soup)
                         academic_urls.extend(academic_urls_one_page)
 
-                        list_urls.append([university,school,new_url,detail_model])
+                        list_urls.append([id,new_url,detail_model])
                     except:
                         print('替换末位数字为1的列表页链接无效')
 
                     #通过循环生成非首页列表页
                     second_num = r.findall(second_page)
-                    if signal_rank == 0:    j = signal_max  #升序：（时间顺序）“反爬”，从最后一页开始
-                    elif signal_rank == 1:  j = 1           #降序：（时间顺序）“反爬”，从最后一页开始
-                    else:print("特殊情况：" + university, school)
-                    while j <= signal_max and j > 0:
+                    if signal_rank == 0:
+                        j = signal_max  #升序：（时间顺序）“反爬”，从最后一页开始
+                    elif signal_rank == 1:
+                        j = 1           #降序：（时间顺序）“反爬”，从最后一页开始
+                    else:
+                        j=0  #特殊情况不报错直接跳过
+                        print("特殊情况：" + university, school)
+                    while j < signal_max and j > 0:
                         tmp_url = r.sub(str(j), second_page)
                         # r = re.findall('[0-9]+', second_page)
                         # tmp_url = second_page.replace(str(r[-2]), str(j), 1)
@@ -194,7 +199,7 @@ def get_listURLs(data):
                             continue
                 #去重
                 academic_urls = list(set(academic_urls))
-                academic_info ,error_info = get_academic_text(university,school,academic_urls)
+                academic_info ,error_info = get_academic_text(id,academic_urls)
                 # print(list_urls)
                 # print(academic_urls)
                 # print(len(academic_urls))
@@ -235,12 +240,12 @@ def get_academic_urls(page_url,detail_model,soup):
     #列表去重
     all_links=list(set(all_links))
     for current_url in all_links:
-        if fnmatch(current_url,detail_model):
+        if fnmatch(current_url,detail_model+'*'):
             academic_urls.append(current_url)
     academic_urls = list(set(academic_urls))
     return academic_urls
 
-def get_academic_text(university,school,academic_urls):
+def get_academic_text(id,academic_urls):
     academic_info=[]
     error_info=[]
     # i=0
@@ -252,13 +257,12 @@ def get_academic_text(university,school,academic_urls):
         try:
             academic_text = get_article(url)
             # print(academic_text)
-            academic_info.append([university,school,url,academic_text])
+            academic_info.append([id,url,academic_text])
         except:
             print('获取学术报告文本失败')
-            error_info.append([university,school,url])
+            error_info.append([id,url])
     return (academic_info, error_info)
 
 if __name__ == '__main__':
     a=get_enterURL_from_mysql()
     get_listURLs(a)
-
