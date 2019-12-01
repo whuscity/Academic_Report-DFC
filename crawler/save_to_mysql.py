@@ -24,7 +24,7 @@ class save_to_database(object):
         conn = pymysql.connect(host=hostD, port=portD, user=userD, passwd=passwdD, db=dbD,
                                charset=charsetD)  # 基本的本机MYSQL配置
         cursor = conn.cursor()
-        sql = "insert into empty_urls (url_id,first_page,second_page,detail_model) VALUES (%s,%s,%s,%s)"
+        sql = "insert into empty_urls (id,first_page,second_page,detail_model) VALUES (%s,%s,%s,%s)"
         cursor.execute(sql, data_list)
         conn.commit()
         print('入口为空页面信息插入成功！')
@@ -35,7 +35,7 @@ class save_to_database(object):
         conn = pymysql.connect(host=hostD, port=portD, user=userD, passwd=passwdD, db=dbD,
                                charset=charsetD)  # 基本的本机MYSQL配置
         cursor = conn.cursor()
-        sql = "insert into refused_enter_urls (url_id,first_page,second_page,detail_model) VALUES (%s,%s,%s,%s)"
+        sql = "insert into refused_enter_urls (id,first_page,second_page,detail_model) VALUES (%s,%s,%s,%s)"
         cursor.execute(sql, data_list)
         conn.commit()
         print('无法打开页面信息插入成功！')
