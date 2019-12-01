@@ -106,42 +106,42 @@ def html2Article(html_file):
     return result_data
 
 def main():
-    sql = 'select * from error_info where solve_signal =0'#选择未处理的数据
+    sql = 'select * from error_info where solve_signal !=1'#选择未处理的数据
     error_urls = database(sql)  # 错误信息
     for i in error_urls:
         try:
             header = get_headers()  # 获取一个随机浏览器代理
-            res = requests.get(i[3], headers=header)
-            res.encoding = encoding(i[3])  # 编码
-            time.sleep(1)  # 睡眠1s
+            res = requests.get(i[2], headers=header,timeout=15)
+            res.encoding = encoding(i[2])  # 编码
+            time.sleep(5)  # 睡眠5s
             if len(res.text) > 0:  # 空网页也不要
-                print('{}可以正常访问！'.format(i[3]))
+                print('{}可以正常访问！'.format(i[2]))
                 print('正在爬取网页详情内容！')
                 text = html2Article(res.text)
                 text = ' '.join(text)  # 变为字符串
                 print(text)
                 # 插入数据库
-                sql='insert into academic_info(university,school,academic_url,detail_text,create_person) values("{}","{}","{}","{}","{}")'.format(i[1],i[2],i[3],text,'Gary')
+                sql='insert into academic_info(url_id,academic_url,detail_text,create_person) values("{}","{}","{}","{}")'.format(i[1],i[2],text,'Gary')
                 database(sql)
                 # 更新该条数据
                 sql='update  error_info set solution="{}" ,solve_signal={} where id_detail="{}"'.format('再次访问',1,i[0])
                 database(sql)
-                print('{}此条数据已更新！'.format(i[3]))
+                print('{}此条数据已更新！'.format(i[2]))
             elif len(res.text) == 0:  # 内容为空
                 # 更新该条数据
                 sql = 'update  error_info set solution="{}" ,solve_signal={} where id_detail="{}"'.format('再次访问数据为空', -1, i[0])
                 database(sql)
-                print('{}网页内容为空！'.format(i[3]))
+                print('{}网页内容为空！'.format(i[2]))
             else:  # 其他错误
                 # 更新该条数据
                 sql = 'update  error_info set solution="{}" ,solve_signal={} where id_detail="{}"'.format('其他错误', -1,i[0])
                 database(sql)
-                print('{} 其他错误！'.format(i[3]))
+                print('{} 其他错误！'.format(i[2]))
         except:
             # 更新该条数据
             sql = 'update  error_info set solution="{}" ,solve_signal={} where id_detail="{}"'.format('其他访问异常', -1,i[0])
             database(sql)
-            print('{}访问异常错误！'.format(i[3]))
+            print('{}访问异常错误！'.format(i[2]))
             
 if __name__ == '__main__':
     main()
