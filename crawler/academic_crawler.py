@@ -189,7 +189,7 @@ def get_listURLs(data):
                             soup = BeautifulSoup(response, 'html.parser')
                             academic_urls_one_page = get_academic_urls(tmp_url, detail_model, soup)
                             academic_urls.extend(academic_urls_one_page)
-                            list_urls.append([university, school, tmp_url, detail_model])
+                            list_urls.append([id, tmp_url, detail_model])
                             if signal_rank == 0:
                                 j -= 1
                                 if j==1:break
