@@ -4,6 +4,7 @@ import re
 import urllib.request
 import time
 from bs4 import BeautifulSoup
+import chardet#获取网页编码
 
 
 threshold_of_article = 5  #设置的正文长度阈值
@@ -14,15 +15,12 @@ def get_html(url):
         request = urllib.request.Request(url, headers=header)
         response = urllib.request.urlopen(request, timeout=10)
         html = response.read()
+        encode = chardet.detect(html)['encoding']#获取网页编码
         # response = requests.get(url,headers=header)
         # html = response.text
         # return html
-        try:
-            html_file = html.decode('utf-8')
-            return html_file
-        except:
-            html_file = html.decode('gb18030')
-            return  html_file
+        html_file = html.decode(encode)
+        return html_file
 
 
     except Exception as e:  # 抛出超时异常
