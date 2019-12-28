@@ -8,74 +8,60 @@ dbD = 'acarep_crawler'
 charsetD = 'utf8mb4'
 
 class save_to_database(object):
-    #将动态页面的院校信息存入数据库
-    def save_dynamicURL(self, data_list):
-        conn = pymysql.connect(host=hostD, port=portD, user=userD, passwd=passwdD, db=dbD,
-                               charset=charsetD)  # 基本的本机MYSQL配置
+    def save_dynamicURL(self,data_list):
+        conn = pymysql.connect(host=hostD, port=portD, user=userD, passwd=passwdD, db=dbD, charset=charsetD)  # 基本的本机MYSQL配置
         cursor = conn.cursor()
-        sql = "insert into dynamic_urls (id,first_page,second_page,detail_model) VALUES (%s,%s,%s,%s)"
+        sql = "insert into dynamic_urls (university,school,first_page,second_page,detail_model) VALUES (%s,%s,%s,%s,%s)"
         cursor.execute(sql, data_list)
         conn.commit()
-        print('动态页面信息插入成功！')
         conn.close()
 
-    # 将入口网址为空的院校存入数据库
-    def save_emptyURL(self, data_list):
-        conn = pymysql.connect(host=hostD, port=portD, user=userD, passwd=passwdD, db=dbD,
-                               charset=charsetD)  # 基本的本机MYSQL配置
+    #将入口网址为空的院校存入数据库
+    def save_emptyURL(self,data_list):
+        conn = pymysql.connect(host=hostD, port=portD, user=userD, passwd=passwdD, db=dbD, charset=charsetD)  # 基本的本机MYSQL配置
         cursor = conn.cursor()
-        sql = "insert into empty_urls (id,first_page,second_page,detail_model) VALUES (%s,%s,%s,%s)"
+        sql = "insert into empty_urls (university,school,first_page,second_page,detail_model) VALUES (%s,%s,%s,%s,%s)"
         cursor.execute(sql, data_list)
         conn.commit()
-        print('入口为空页面信息插入成功！')
         conn.close()
 
-    # 将无法打开的入口链接信息存入数据库
-    def save_refusedURLS(self, data_list):
-        conn = pymysql.connect(host=hostD, port=portD, user=userD, passwd=passwdD, db=dbD,
-                               charset=charsetD)  # 基本的本机MYSQL配置
+    #将无法打开的入口链接信息存入数据库
+    def save_refusedURLS(self,data_list):
+        conn = pymysql.connect(host=hostD, port=portD, user=userD, passwd=passwdD, db=dbD, charset=charsetD)  # 基本的本机MYSQL配置
         cursor = conn.cursor()
-        sql = "insert into refused_enter_urls (id,first_page,second_page,detail_model) VALUES (%s,%s,%s,%s)"
+        sql = "insert into refused_enter_urls (university,school,first_page,second_page,detail_model) VALUES (%s,%s,%s,%s,%s)"
         cursor.execute(sql, data_list)
         conn.commit()
-        print('无法打开页面信息插入成功！')
         conn.close()
 
-    # 将列表页的信息存入数据库
-    def save_listURLs(self, data_list):
-        conn = pymysql.connect(host=hostD, port=portD, user=userD, passwd=passwdD, db=dbD,
-                               charset=charsetD)  # 基本的本机MYSQL配置
+    #将列表页的信息存入数据库
+    def save_listURLs(self,data_list):
+        conn = pymysql.connect(host=hostD, port=portD, user=userD, passwd=passwdD, db=dbD, charset=charsetD)  # 基本的本机MYSQL配置
         cursor = conn.cursor()
-        sql = "insert into list_urls (url_id,list_url,detail_model) VALUES (%s,%s,%s)"
+        sql = "insert into list_urls (university,school,list_url,detail_model) VALUES (%s,%s,%s,%s)"
         cursor.executemany(sql, data_list)
         conn.commit()
-        print('列表页面信息插入成功！')
         conn.close()
 
-    # 将访问错误的页面存入数据库
-    def save_error_info(self, data_list):
-        conn = pymysql.connect(host=hostD, port=portD, user=userD, passwd=passwdD, db=dbD,
-                               charset=charsetD)  # 基本的本机MYSQL配置
+    def save_error_info(self,data_list):
+        conn = pymysql.connect(host=hostD, port=portD, user=userD, passwd=passwdD, db=dbD, charset=charsetD)  # 基本的本机MYSQL配置
         cursor = conn.cursor()
-        sql = "insert into error_info(url_id,academic_url) VALUES (%s,%s)"
+        sql = "insert into error_info (university,school,academic_url) VALUES (%s,%s,%s)"
         cursor.executemany(sql, data_list)
         conn.commit()
-        print('访问错误页面信息插入成功！')
         conn.close()
 
-    # 将详情页的信息存入数据库
-    def save_academic_info(self, data_list):
-        conn = pymysql.connect(host=hostD, port=portD, user=userD, passwd=passwdD, db=dbD,
-                               charset=charsetD)  # 基本的本机MYSQL配置
+    #将详情页的信息存入数据库
+    def save_academic_info(self,data_list):
+        conn = pymysql.connect(host=hostD, port=portD, user=userD, passwd=passwdD, db=dbD, charset=charsetD)  # 基本的本机MYSQL配置
         cursor = conn.cursor()
-        sql = "insert into academic_info (url_id,academic_url,detail_text) VALUES (%s,%s,%s)"
+        sql = "insert into academic_info (university,school,academic_url,detail_text) VALUES (%s,%s,%s,%s)"
         cursor.executemany(sql, data_list)
         conn.commit()
-        print('详情页面信息插入成功！')
         conn.close()
 
     # 判断是否爬取过
-    def upload(self, url):
+    def upload(self,url):
         conn = pymysql.connect(host=hostD, port=portD, user=userD, passwd=passwdD, db=dbD,
                                charset=charsetD)
         cursor = conn.cursor()
