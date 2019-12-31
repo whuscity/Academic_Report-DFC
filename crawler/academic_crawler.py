@@ -120,7 +120,8 @@ def get_listURLs(data):
             first_page_info=[id,first_page,detail_model]
             list_urls.append(first_page_info)
             try:
-                header = {"User-Agent": "Mozilla5.0 (Windows NT 6.1; WOW64; rv:59.0) Gecko/20100101 Firefox/59.0"}
+                header = {
+        "User-Agent": 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.70 Safari/537.36'}
                 request = urllib.request.Request(first_page, headers=header)
                 response = urllib.request.urlopen(request, timeout=10)
                 soup = BeautifulSoup(response, 'html.parser')
@@ -146,7 +147,8 @@ def get_listURLs(data):
                         #     # opener = urllib.request.build_opener(httpproxy_handler)
                         #     # request = urllib.request.Request(new_url, headers=get_headers())
                         #     # response = opener.open(request)
-                        header = {"User-Agent": "Mozilla5.0 (Windows NT 6.1; WOW64; rv:59.0) Gecko/20100101 Firefox/59.0"}
+                        header = {
+        "User-Agent": 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.70 Safari/537.36'}
                         request = urllib.request.Request(new_url, headers=header)
                         response = urllib.request.urlopen(request, timeout=10)
                         soup = BeautifulSoup(response, 'html.parser')
@@ -183,7 +185,8 @@ def get_listURLs(data):
                             # request = urllib.request.Request(tmp_url)
                             # #response=urllib.request.urlopen(request,timeout=3)
                             # response = opener.open(request)
-                            header = {"User-Agent": "Mozilla5.0 (Windows NT 6.1; WOW64; rv:59.0) Gecko/20100101 Firefox/59.0"}
+                            header = {
+        "User-Agent": 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.70 Safari/537.36'}
                             request = urllib.request.Request(tmp_url, headers=header)
                             response = urllib.request.urlopen(request, timeout=10)
                             soup = BeautifulSoup(response, 'html.parser')
