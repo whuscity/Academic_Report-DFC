@@ -11,7 +11,8 @@ threshold_of_article = 5  #设置的正文长度阈值
 
 def get_html(url):
     try:
-        header = {"User-Agent": "Mozilla5.0 (Windows NT 6.1; WOW64; rv:59.0) Gecko/20100101 Firefox/59.0"}
+        header = {
+        "User-Agent": 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.70 Safari/537.36'}
         request = urllib.request.Request(url, headers=header)
         response = urllib.request.urlopen(request, timeout=10)
         html = response.read()
