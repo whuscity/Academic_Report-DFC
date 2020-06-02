@@ -2,6 +2,9 @@
 import re
 import urllib
 import urllib.request
+import time
+import ssl
+
 import pymysql
 import random
 from bs4 import BeautifulSoup
@@ -9,43 +12,27 @@ from urllib import parse
 from fnmatch import fnmatch,fnmatchcase #通配符匹配
 
 #引入正文提取函数
-from crawler.Html2Article import get_article
+from Html2Article import get_article
 #引入存储数据库的方法
-from crawler.save_to_mysql import save_to_database
+from save_to_mysql import save_to_database
 save = save_to_database()
 startid =1
+dup_flag = False #如果某个学校存在重复爬取则置True，以防非动态页面插入dynamic表
+
+
 
 #以下connect以及save_to_mysql都需要更改数据库参数
 def get_enterURL_from_mysql():
-    conn = pymysql.connect(host='localhost', port=3306, user='user', passwd='password', db='dbname',charset='utf8mb4')
+    conn = pymysql.connect(host='47.100.78.223', port=3306, user='PM', passwd='888888', db='AcademicReport',charset='utf8')
     cursor = conn.cursor()
     #sql = 'select * from enter_urls where id >= '+str(startid) #从这里设定开始ID
-    sql='select * from enter_urls where id BETWEEN 69 and 92'
-    #sql = 'select * from enter_urls where id =5'
+    sql='select * from enter_urls where enter_urls.id > 60000'
+    # sql = 'select enter_urls.id,enter_urls.university,enter_urls.school,enter_urls.first_page,enter_urls.second_page,enter_urls.detail_model,enter_urls.signal_rank,enter_urls.signal_var,enter_urls.signal_max from enter_urls,refused_enter_urls where enter_urls.id = refused_enter_urls.id and enter_urls.id > 1236'
+    #sql = 'select * from enter_urls where id =5'dd
     cursor.execute(sql)
     data=cursor.fetchall()
     return data
 
-#随机选择一个User-Agent
-def get_headers():
-    '''
-    随机获取一个headers
-    '''
-    user_agents =  ["Mozilla/5.0 (Windows NT 6.1; rv:2.0.1) Gecko/20100101 Firefox/4.0.1",
-                    "Mozilla/5.0 (Windows; U; Windows NT 6.1; en-us) AppleWebKit/534.50 (KHTML, like Gecko) Version/5.1 Safari/534.50",
-                    "Opera/9.80 (Windows NT 6.1; U; en) Presto/2.8.131 Version/11.11",
-                    "Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.1; Win64; x64; Trident/5.0; .NET CLR 3.5.30729; .NET CLR 3.0.30729; .NET CLR 2.0.50727; Media Center PC 6.0)",
-                    "Mozilla/5.0 (compatible; MSIE 8.0; Windows NT 6.0; Trident/4.0; WOW64; Trident/4.0; SLCC2; .NET CLR 2.0.50727; .NET CLR 3.5.30729; .NET CLR 3.0.30729; .NET CLR 1.0.3705; .NET CLR 1.1.4322)",
-                    "Mozilla/4.0 (compatible; MSIE 7.0b; Windows NT 5.2; .NET CLR 1.1.4322; .NET CLR 2.0.50727; InfoPath.2; .NET CLR 3.0.04506.30)",
-                    "Mozilla/5.0 (Windows; U; Windows NT 5.1; zh-CN) AppleWebKit/523.15 (KHTML, like Gecko, Safari/419.3) Arora/0.3 (Change: 287 c9dfb30)",
-                    "Mozilla/5.0 (X11; U; Linux; en-US) AppleWebKit/527+ (KHTML, like Gecko, Safari/419.3) Arora/0.6",
-                    "Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.8.1.2pre) Gecko/20070215 K-Ninja/2.1.1",
-                    "Mozilla/5.0 (Windows; U; Windows NT 5.1; zh-CN; rv:1.9) Gecko/20080705 Firefox/3.0 Kapiko/3.0",
-                    "Mozilla/5.0 (X11; Linux i686; U;) Gecko/20070322 Kazehakase/0.4.5"
-                    ]
-
-    headers = {'User-Agent':random.choice(user_agents)}
-    return headers
 
 #判断是否为动态页面
 def is_dynamic_page(url,signal_var):
@@ -66,24 +53,6 @@ def is_dynamic_page(url,signal_var):
 
 #生成全部的列表页url，并获取学术详情页的链接和文本内容
 def get_listURLs(data):
-    #headers = {'user-agent': "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.0.3497.100 Safari/537.36"}
-    #代理IP池
-    # proxy_list = [
-    #     {"http": "111.177.188.246"},
-    #
-    #     {"http": "110.52.235.239"},
-    #
-    #     {"http": "125.126.194.11"},
-    #
-    #     {"http": "110.52.235.15"},
-    #
-    #     {"http": "111.177.182.136"},
-    #
-    #     {"http": "222.223.115.30"}
-    # ]
-
-    #需要单独处理的动态页面
-
     for i in range(len(data)):
         list_urls = []
         academic_urls=[]
@@ -100,19 +69,18 @@ def get_listURLs(data):
         signal_var = data[i][7]             # 列表页url如有绑定字段，在此处记录
         signal_max = data[i][8]             # 列表页在最初采集时的规模（列表页页数）
 
-        print('正在爬取：', university, school, '的学术报告信息')
+        print('*正在爬取：', university, school, '的学术报告信息')
 
         #从数据库读取的当前一条信息
         tmp_info = [id, first_page, second_page, detail_model]
 
-        if first_page == '':
+        if first_page is None:
             print('入口网址信息为空')
             save.save_emptyURL(tmp_info)
             print('')
 
         elif is_dynamic_page(first_page,signal_var):
             print('动态加载页面，需要单独处理:', first_page)
-            #dynamic_urls = tmp_info[:]
             print('')
             save.save_dynamicURL(tmp_info)
         else:
@@ -120,8 +88,7 @@ def get_listURLs(data):
             first_page_info=[id,first_page,detail_model]
             list_urls.append(first_page_info)
             try:
-                header = {
-        "User-Agent": 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.70 Safari/537.36'}
+                header = {"User-Agent": "Baiduspider"}
                 request = urllib.request.Request(first_page, headers=header)
                 response = urllib.request.urlopen(request, timeout=10)
                 soup = BeautifulSoup(response, 'html.parser')
@@ -134,21 +101,9 @@ def get_listURLs(data):
                     # #单独检查替换后数字为1的链接是否有效
                     # # 后两行的只能匹配链接最末尾的数字
                     new_url = r.sub('1', second_page)
-                    #
-                    # # #先匹配全部数字，返回列表，再自己选择位置替换
-                    # # r = re.findall('[0-9]+', second_page)
-                    # # new_url = second_page.replace(str(r[-2]),'1', 1)
+
                     try:
-                        #     # # 随机选择一个代理
-                        #     # proxy = random.choice(proxy_list)
-                        #     #
-                        #     # # 使用选择的代理构建代理处理器对象
-                        #     # httpproxy_handler = urllib.request.ProxyHandler(proxy)
-                        #     # opener = urllib.request.build_opener(httpproxy_handler)
-                        #     # request = urllib.request.Request(new_url, headers=get_headers())
-                        #     # response = opener.open(request)
-                        header = {
-        "User-Agent": 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.70 Safari/537.36'}
+                        header = {"User-Agent": "Baiduspider"}
                         request = urllib.request.Request(new_url, headers=header)
                         response = urllib.request.urlopen(request, timeout=10)
                         soup = BeautifulSoup(response, 'html.parser')
@@ -166,27 +121,15 @@ def get_listURLs(data):
                     elif signal_rank == 1:
                         j = 1           #降序：（时间顺序）“反爬”，从最后一页开始
                     else:
-                        j=0  #特殊情况不报错直接跳过
+                        j=-1  #特殊情况不报错直接跳过
                         print("特殊情况：" + university, school)
-                    while j < signal_max and j > 0:
+                        save.save_dynamicURL(tmp_info)
+                    while j <= signal_max and j > 0:
                         tmp_url = r.sub(str(j), second_page)
-                        # r = re.findall('[0-9]+', second_page)
-                        # tmp_url = second_page.replace(str(r[-2]), str(j), 1)
-                        # tmp_url=second_page.strip().replace(a[-1],str(j))
-                        # time.sleep(0.5)
+
                         try:
-                            # # 随机选择一个代理
-                            # proxy = random.choice(proxy_list)
-                            #
-                            # # 使用选择的代理构建代理处理器对象
-                            # httpproxy_handler = urllib.request.ProxyHandler(proxy)
-                            # opener = urllib.request.build_opener(httpproxy_handler)
-                            # #request = urllib.request.Request(tmp_url, headers=get_headers())
-                            # request = urllib.request.Request(tmp_url)
-                            # #response=urllib.request.urlopen(request,timeout=3)
-                            # response = opener.open(request)
-                            header = {
-        "User-Agent": 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.70 Safari/537.36'}
+                            header = {"User-Agent": "Baiduspider"}
+                            print(j,end=" ")
                             request = urllib.request.Request(tmp_url, headers=header)
                             response = urllib.request.urlopen(request, timeout=10)
                             soup = BeautifulSoup(response, 'html.parser')
@@ -195,23 +138,22 @@ def get_listURLs(data):
                             list_urls.append([id, tmp_url, detail_model])
                             if signal_rank == 0:
                                 j -= 1
-                                if j==1:break
                             elif signal_rank == 1:  j += 1
 
                         except:
+                            if signal_rank == 0:
+                                j -= 1
+                            elif signal_rank == 1:  j += 1
                             continue
-                #去重
-                academic_urls = list(set(academic_urls))
+
+                print("\r状态：学术报告详情页url获取成功。",end="")
+                dup_flag = False
+                academic_urls = list(set(academic_urls)) #去重
                 academic_info ,error_info = get_academic_text(id,academic_urls)
-                # print(list_urls)
-                # print(academic_urls)
-                # print(len(academic_urls))
-                # print(academic_info)
-                # print(first_page,len(academic_info),'条')
 
-
-                if len(academic_info)==0:
-                    print('未能获取到任何内容，该网页可能为动态加载')
+                print("\r状态：爬取完成。存储中", end="")
+                if len(academic_info)==0 and not dup_flag:
+                    print('\r该学院未能获取到任何内容，该网页可能为动态加载')
                     save.save_dynamicURL(tmp_info)
                     print('')
                 else:
@@ -219,10 +161,12 @@ def get_listURLs(data):
                     save.save_academic_info(academic_info)
                     save.save_listURLs(list_urls)
                     save.save_error_info(error_info)
+                    save.delete_from_error(id)
 
             except Exception as e:  # 抛出异常
+                tmp_info.append(str(e))
                 save.save_refusedURLS(tmp_info)
-                print('列表页错误:', str(e))
+                print('\r列表页错误:', str(e))
                 print('')
 
 
@@ -251,21 +195,21 @@ def get_academic_urls(page_url,detail_model,soup):
 def get_academic_text(id,academic_urls):
     academic_info=[]
     error_info=[]
-    # i=0
+    count=0
     for url in academic_urls:
-        if not save.upload(url):continue
-        # time.sleep(0.5)
-        # print("进度:{0}%".format(round((i + 1) * 100 / len(academic_urls))), end="\r")
-        # i+=1
+        count += 1
+        if not save.upload(url):continue #没有保存过，则继续
+        else: dup_flag = True
         try:
             academic_text = get_article(url)
-            # print(academic_text)
+            print("\r状态：该学院已爬取{}/{}学术报告。".format(count,len(academic_urls)),end="")
             academic_info.append([id,url,academic_text])
         except:
-            print('获取学术报告文本失败')
+            print('\r获取学术报告文本失败',end="")
             error_info.append([id,url])
     return (academic_info, error_info)
 
 if __name__ == '__main__':
     a=get_enterURL_from_mysql()
+    ssl._create_default_https_context = ssl._create_unverified_context
     get_listURLs(a)

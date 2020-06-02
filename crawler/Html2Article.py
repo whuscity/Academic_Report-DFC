@@ -11,8 +11,7 @@ threshold_of_article = 5  #设置的正文长度阈值
 
 def get_html(url):
     try:
-        header = {
-        "User-Agent": 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.70 Safari/537.36'}
+        header = {"User-Agent": "Mozilla5.0 (Windows NT 6.1; WOW64; rv:59.0) Gecko/20100101 Firefox/59.0"}
         request = urllib.request.Request(url, headers=header)
         response = urllib.request.urlopen(request, timeout=10)
         html = response.read()
@@ -25,7 +24,8 @@ def get_html(url):
 
 
     except Exception as e:  # 抛出超时异常
-        print('详情页错误:', str(e))
+        print('\r详情页错误:', str(e),end="")
+        time.sleep(3)
         return None
 
 def html2Article(html_file):
