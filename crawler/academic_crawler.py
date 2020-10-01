@@ -26,7 +26,7 @@ def get_enterURL_from_mysql():
     conn = pymysql.connect(host='47.100.78.223', port=3306, user='PM', passwd='888888', db='AcademicReport',charset='utf8')
     cursor = conn.cursor()
     #sql = 'select * from enter_urls where id >= '+str(startid) #从这里设定开始ID
-    sql='select * from enter_urls where enter_urls.id > 60000'
+    sql='select * from enter_urls where enter_urls.id > 1000'
     # sql = 'select enter_urls.id,enter_urls.university,enter_urls.school,enter_urls.first_page,enter_urls.second_page,enter_urls.detail_model,enter_urls.signal_rank,enter_urls.signal_var,enter_urls.signal_max from enter_urls,refused_enter_urls where enter_urls.id = refused_enter_urls.id and enter_urls.id > 1236'
     #sql = 'select * from enter_urls where id =5'dd
     cursor.execute(sql)
@@ -96,7 +96,9 @@ def get_listURLs(data):
                 academic_urls.extend(academic_urls_first_page)
 
                 #根据列表页第二页中的数字生成全部列表页
-                r = re.compile('[0-9]+(?=[^0-9]*$)')
+                if(signal_var is None or signal_var == ""):
+                    r = re.compile('[0-9]+(?=[^0-9]*$)')
+                else:r = re.compile(signal_var+'=?[0-9]*')
                 if second_page is not None:
                     # #单独检查替换后数字为1的链接是否有效
                     # # 后两行的只能匹配链接最末尾的数字
