@@ -6,6 +6,7 @@
     2.academic_crawler.py
     3.Html2Article.py
     4.save_to_mysql.py
+    5.handle_pic.py
 
 #### 1.handle_error.py  
 
@@ -35,7 +36,10 @@
 *将爬取数据存储至数据库*  
 离线操作时请在代码头几行自行更改本机mysql配置，**更新时请不要commit此代码因本机操作带来的改变。**
 
-
+#### 5.handle_pic.py  
+如果缺乏依赖库请先安装相关库  
+*功能：可以进行网页滑动截屏*  
+待做：识别截图后的内容
 ### 数据库的结构设计，具体见doc
 
 
