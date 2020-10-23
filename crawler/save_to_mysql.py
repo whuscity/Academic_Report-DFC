@@ -1,6 +1,6 @@
 import pymysql
 #将需要单独处理的动态页面信息存入数据库
-hostD = '47.100.78.223'
+hostD = 'localhost'
 portD = 3306
 userD = 'PM'
 passwdD = '888888'
