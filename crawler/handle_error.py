@@ -24,11 +24,11 @@ def database(sql):
         try:
             cur.execute(sql)
             conn.commit()  # 提交事务
-            print("{} ok".format(type))
+            # print("{} ok".format(type))
         except Exception as e:
             print(str(e))
             # 发生错误时回滚
-            print('something wrong!')
+            # print('something wrong!')
             conn.rollback()  # 回滚事务
         # 关闭数据库连接
     conn.close()
@@ -119,39 +119,50 @@ def main():
         try:
             header = get_headers()  # 获取一个随机浏览器代理
             res = requests.get(i[2], headers=header, timeout=15)
+            # 如果timeout出现，很有可能是对方网页停止服务了，状态码默认为503
             res.encoding = encoding(i[2])  # 编码
             time.sleep(0.5)  # 睡眠0.5s
-            if len(res.text) > 0:  # 空网页也不要
-                print('{}可以正常访问！'.format(i[2]))
-                print('正在爬取网页详情内容！')
-                text = html2Article(res.text)
-                text = ' '.join(text)  # 变为字符串
-                print(text)
-                # 插入数据库
-                sql = 'insert into academic_info(url_id,academic_url,detail_text,create_person) values("{}","{}","{}","{}")'.format(
-                    i[1], i[2], text, 'Gary')
-                database(sql)
+            # print(res.status_code, type(res.status_code))
+            # exit()
+            if res.status_code == 200:  # 状态码为200才继续往下走
+                if len(res.text) > 0:  # 空网页也不要
+                    print('{}可以正常访问！'.format(i[2]))
+                    print('正在爬取网页详情内容！')
+                    text = html2Article(res.text)
+                    text = ' '.join(text)  # 变为字符串
+                    print(text)
+                    # 插入数据库
+                    sql = 'insert into academic_info(url_id,academic_url,detail_text,create_person) values("{}","{}","{}","{}")'.format(
+                        i[1], i[2], text, 'Gary_E')
+                    database(sql)
+                    # 更新该条数据
+                    sql = 'update  error_info set solution="{}" ,solve_signal={} where id="{}"'.format('再次访问', 1,
+                                                                                                       i[0])
+                    database(sql)
+                    print('{}此条数据已更新！'.format(i[2]))
+                elif len(res.text) == 0:  # 内容为空
+                    # 更新该条数据
+                    sql = 'update  error_info set solution="{}" ,solve_signal={} where id="{}"'.format('再次访问数据为空',
+                                                                                                       -1, i[0])
+                    database(sql)
+                    print('{}网页内容为空！'.format(i[2]))
+                else:  # 其他错误
+                    # 更新该条数据
+                    sql = 'update  error_info set solution="{}" ,solve_signal={} where id="{}"'.format('其他错误', -1,
+                                                                                                       i[0])
+                    database(sql)
+                    print('{} 其他错误！'.format(i[2]))
+            else:
                 # 更新该条数据
-                sql = 'update  error_info set solution="{}" ,solve_signal={} where id="{}"'.format('再次访问', 1,
-                                                                                                          i[0])
+                sql = 'update  error_info set solution="{}" ,solve_signal={},status_code="{}" where id="{}"'.format(
+                    '其他访问异常', -1, res.status_code,
+                    i[0])
                 database(sql)
-                print('{}此条数据已更新！'.format(i[2]))
-            elif len(res.text) == 0:  # 内容为空
-                # 更新该条数据
-                sql = 'update  error_info set solution="{}" ,solve_signal={} where id="{}"'.format('再次访问数据为空',
-                                                                                                          -1, i[0])
-                database(sql)
-                print('{}网页内容为空！'.format(i[2]))
-            else:  # 其他错误
-                # 更新该条数据
-                sql = 'update  error_info set solution="{}" ,solve_signal={} where id="{}"'.format('其他错误', -1,
-                                                                                                          i[0])
-                database(sql)
-                print('{} 其他错误！'.format(i[2]))
         except:
             # 更新该条数据
-            sql = 'update  error_info set solution="{}" ,solve_signal={} where id="{}"'.format('其他访问异常', -1,
-                                                                                                      i[0])
+            sql = 'update  error_info set solution="{}" ,solve_signal={},status_code="{}" where id="{}"'.format(
+                '其他访问异常', -1, 503,
+                i[0])
             database(sql)
             print('{}访问异常错误！'.format(i[2]))
 
