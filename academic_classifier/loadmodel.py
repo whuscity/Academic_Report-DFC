@@ -1,12 +1,12 @@
 import pickle
 import pymysql
 import numpy as np
-from cleandata import normalize_corpus
+from train_model import normalize_corpus
 
 def prepare_datasets():
     conn = pymysql.connect(host='localhost', port = 3306, user = "root",password = "root",database = "clear",charset= "utf8" )
     cursor = conn.cursor()
-    sql = """select id,detail_text from academic_info where (44285596<= id and id<=44290636)"""#1-5页末尾 10-15末页 20-25末  100-105末 125-130末
+    sql = """select id,detail_text from economic"""#1-5页末尾 10-15末页 20-25末  100-105末 125-130末
     cursor.execute(sql)
     data = cursor.fetchall()
     conn.close()
@@ -27,9 +27,9 @@ def load_predict_result(predict_result,data):
     list2 = list(i[1] for i in data)
     listid = list(i[0] for i in data)
     list_insert = list(zip(listid,list2, list1))
-    conn = pymysql.connect(host='localhost', port=3306, user="root", password="root", database="test", charset="utf8")
+    conn = pymysql.connect(host='localhost', port=3306, user="root", password="root", database="clear", charset="utf8")
     cursor = conn.cursor()
-    sql = """insert into predict_table(content_id,content_text,text_signal) VALUES (%s,%s,%s)"""  # 那个academic搞成byte了不对44091175太大了
+    sql = """insert into predict_table_economic(content_id,content_text,text_signal) VALUES (%s,%s,%s)"""  # 那个academic搞成byte了不对44091175太大了
     cursor.executemany(sql, list_insert)
     conn.commit()
     conn.close()
