@@ -6,5 +6,6 @@ extraction/tagging/data/*
 extraction/simple_match/data/*
 extraction/db_operation/getdb.py
 
+*pycache*
 
 

@@ -35,7 +35,7 @@ for i in range(119,120):
             iter = pattern.finditer(row[2])
             for record in iter:
                 timedata.append(tuple([id, url_id, record.group(), record.span()[0], record.span()[1]]))
-        #
+
         ## 方式2
         pattern = re.compile(date_2)
         iter = pattern.finditer(row[2])
