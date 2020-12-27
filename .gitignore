@@ -3,6 +3,7 @@
 
 # report data txt
 extraction/tagging/data/*
+extraction/tagging/sampledata/*
 extraction/simple_match/data/*
 extraction/db_operation/getdb.py
 
