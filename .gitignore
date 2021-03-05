@@ -1,6 +1,6 @@
 # automatically inserted by Jetbrains
 .idea/*
-
+*.idea*
 # report data txt
 extraction/tagging/data/*
 extraction/tagging/sampledata/*

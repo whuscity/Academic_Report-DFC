@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="referrer" content="no-referrer" />
+
+    <link href="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/4.5.3/css/bootstrap.min.css" rel="stylesheet">
+
+    <link href="../static/css/list.css" rel="stylesheet">
+
+    <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/4.5.3/js/bootstrap.min.js"></script>
+
+    <title>DFCReport - 双一流学术报告交流信息聚合平台</title>
+</head>
+<body>
+    <div id="header"><!--{#        题头，含logo标题、用户、菜单#}-->
+
+        <div id="logo">
+            <div class="fl" style="height:100%">
+                <img src="../static/image/whuicon.png" style="height:100%" />
+            </div>
+            <div class="fl">
+                <div id="maintitle">DFCReport</div>
+                <div id="subtitle">双一流学术报告信息聚合平台</div>
+            </div>
+
+        </div>
+
+        <div id="menus">
+            <div id="usericon">
+                <img src="../static/image/defaultusericon.svg" style="height:100%">
+            </div>
+            <div id="menuicon">
+                <img src="../static/image/defaultusericon.svg" style="height:100%">
+            </div>
+            <div id="questionicon">
+                <img src="../static/image/defaultusericon.svg" style="height:100%">
+            </div>
+        </div>
+    </div>
+    <div id="navbar"><!--{#        导航栏，含一级页面及搜索框#}-->
+        <div id="bar">
+            <div class="navi">
+                <a href="/">首页原型</a>
+            </div>
+            <div class="navi">
+                <a href="/list">列表原型</a>
+            </div>
+            <div class="navi">
+                <a href="/info">详情原型</a>
+            </div>
+            <div class="navi">
+                <a href="#">占位占位</a>
+            </div>
+            <div class="navi">
+                <a href="#">占位占位</a>
+            </div>
+        </div>
+        <div class="searchbox">
+            <label style="height:100%">
+                <input style="height:100%;border: none;border-radius:10px;padding-left:10px">
+            </label>
+            <button id="search">搜</button>
+        </div>
+    </div>
+    <div id="main">
+        <div id="left">
+            <div class="box" id="refine">
+                <div class="box-header">筛选结果</div>
+                <div class="box-contain">
+                    <div>
+                        <input id="filter">
+                        <button id="filter-search">搜索</button>
+                    </div>
+                    <div>
+                        <div>按条件选择</div>
+                        <div id="checkboxlist">
+                            <input type="checkbox" name="east">华东
+                            <input type="checkbox" name="north">华北
+                            <input type="checkbox" name="south">华南
+                        </div>
+                        <button id="refinebt">筛选</button>
+                    </div>
+                </div>
+            </div>
+            <div class="box" id="links">
+                <div class="box-header">相关链接</div>
+                <div class="box-contain">
+                        <a>· 武汉大学信息管理学院</a><br />
+                        <a>· 南京大学信息管理学院</a><br />
+                        <a>· 华中师范大学信息管理学院</a><br />
+                </div>
+            </div>
+        </div>
+        <div id="right">
+            <div id="breadcrumb">
+                您当前的位置： Bread > Crumb > Breadcrumb
+            </div>
+            <div id="list">
+                <div id="listhead">
+                    <div id="listdiscription">Description</div>
+                    <div id="listmenu">
+                        <button class="menu"></button>
+                        <button class="menu"></button>
+                        <button class="menu"></button>
+                    </div>
+                </div>
+                <div id="items">
+                    <div class="listitem">
+                        <input type="checkbox">
+                        <a class="itemheading" href="#">贸易自由化、职业选择与异质劳动力在企业间的再配置</a>
+                        <div class="itemdate"><i>2018年6月6日</i></div>
+                        <div class="iteminfo">
+                        <div class="reporter">
+                            <div class="reporter-icon"><img src="../static/image/defaultusericon.svg"></div>
+                            <a class="reporter-name-school">孙楚仁&nbsp;（西南财经大学国际商学院）</a>
+                        </div>
+                        <div class="school">
+                            <div class="school-icon"><img src="../static/image/court.svg"></div>
+                            <a class="school-name">湖南大学经济与贸易学院</a>
+                        </div>
+                            </div>
+                    </div>
+                    <div class="listitem">
+                        <input type="checkbox">
+                        <a class="itemheading" href="#">贸易自由化、职业选择与异质劳动力在企业间的再配置</a>
+                        <div class="itemdate"><i>2018年6月6日</i></div>
+                        <div class="iteminfo">
+                        <div class="reporter">
+                            <div class="reporter-icon"><img src="../static/image/defaultusericon.svg"></div>
+                            <a class="reporter-name-school">孙楚仁&nbsp;（西南财经大学国际商学院）</a>
+                        </div>
+                        <div class="school">
+                            <div class="school-icon"><img src="../static/image/court.svg"></div>
+                            <a class="school-name">湖南大学经济与贸易学院</a>
+                        </div>
+                            </div>
+                    </div>
+                    <div class="listitem">
+                        <input type="checkbox">
+                        <a class="itemheading" href="#">贸易自由化、职业选择与异质劳动力在企业间的再配置</a>
+                        <div class="itemdate"><i>2018年6月6日</i></div>
+                        <div class="iteminfo">
+                        <div class="reporter">
+                            <div class="reporter-icon"><img src="../static/image/defaultusericon.svg"></div>
+                            <a class="reporter-name-school">孙楚仁&nbsp;（西南财经大学国际商学院）</a>
+                        </div>
+                        <div class="school">
+                            <div class="school-icon"><img src="../static/image/court.svg"></div>
+                            <a class="school-name">湖南大学经济与贸易学院</a>
+                        </div>
+                            </div>
+                    </div>
+                    <div class="listitem">
+                        <input type="checkbox">
+                        <a class="itemheading" href="#">贸易自由化、职业选择与异质劳动力在企业间的再配置</a>
+                        <div class="itemdate"><i>2018年6月6日</i></div>
+                        <div class="iteminfo">
+                        <div class="reporter">
+                            <div class="reporter-icon"><img src="../static/image/defaultusericon.svg"></div>
+                            <a class="reporter-name-school">孙楚仁&nbsp;（西南财经大学国际商学院）</a>
+                        </div>
+                        <div class="school">
+                            <div class="school-icon"><img src="../static/image/court.svg"></div>
+                            <a class="school-name">湖南大学经济与贸易学院</a>
+                        </div>
+                            </div>
+                    </div>
+                    <div class="listitem">
+                        <input type="checkbox">
+                        <a class="itemheading" href="#">贸易自由化、职业选择与异质劳动力在企业间的再配置</a>
+                        <div class="itemdate"><i>2018年6月6日</i></div>
+                        <div class="iteminfo">
+                        <div class="reporter">
+                            <div class="reporter-icon"><img src="../static/image/defaultusericon.svg"></div>
+                            <a class="reporter-name-school">孙楚仁&nbsp;（西南财经大学国际商学院）</a>
+                        </div>
+                        <div class="school">
+                            <div class="school-icon"><img src="../static/image/court.svg"></div>
+                            <a class="school-name">湖南大学经济与贸易学院</a>
+                        </div>
+                            </div>
+                    </div>
+                    <div class="listitem">
+                        <input type="checkbox">
+                        <a class="itemheading" href="#">贸易自由化、职业选择与异质劳动力在企业间的再配置</a>
+                        <div class="itemdate"><i>2018年6月6日</i></div>
+                        <div class="iteminfo">
+                        <div class="reporter">
+                            <div class="reporter-icon"><img src="../static/image/defaultusericon.svg"></div>
+                            <a class="reporter-name-school">孙楚仁&nbsp;（西南财经大学国际商学院）</a>
+                        </div>
+                        <div class="school">
+                            <div class="school-icon"><img src="../static/image/court.svg"></div>
+                            <a class="school-name">湖南大学经济与贸易学院</a>
+                        </div>
+                            </div>
+                    </div>
+                    <div class="listitem">
+                        <input type="checkbox">
+                        <a class="itemheading" href="#">贸易自由化、职业选择与异质劳动力在企业间的再配置</a>
+                        <div class="itemdate"><i>2018年6月6日</i></div>
+                        <div class="iteminfo">
+                        <div class="reporter">
+                            <div class="reporter-icon"><img src="../static/image/defaultusericon.svg"></div>
+                            <a class="reporter-name-school">孙楚仁&nbsp;（西南财经大学国际商学院）</a>
+                        </div>
+                        <div class="school">
+                            <div class="school-icon"><img src="../static/image/court.svg"></div>
+                            <a class="school-name">湖南大学经济与贸易学院</a>
+                        </div>
+                            </div>
+                    </div>
+                    <div class="listitem">
+                        <input type="checkbox">
+                        <a class="itemheading" href="#">贸易自由化、职业选择与异质劳动力在企业间的再配置</a>
+                        <div class="itemdate"><i>2018年6月6日</i></div>
+                        <div class="iteminfo">
+                        <div class="reporter">
+                            <div class="reporter-icon"><img src="../static/image/defaultusericon.svg"></div>
+                            <a class="reporter-name-school">孙楚仁&nbsp;（西南财经大学国际商学院）</a>
+                        </div>
+                        <div class="school">
+                            <div class="school-icon"><img src="../static/image/court.svg"></div>
+                            <a class="school-name">湖南大学经济与贸易学院</a>
+                        </div>
+                            </div>
+                    </div>
+                    <div class="listitem">
+                        <input type="checkbox">
+                        <a class="itemheading" href="#">贸易自由化、职业选择与异质劳动力在企业间的再配置</a>
+                        <div class="itemdate"><i>2018年6月6日</i></div>
+                        <div class="iteminfo">
+                        <div class="reporter">
+                            <div class="reporter-icon"><img src="../static/image/defaultusericon.svg"></div>
+                            <a class="reporter-name-school">孙楚仁&nbsp;（西南财经大学国际商学院）</a>
+                        </div>
+                        <div class="school">
+                            <div class="school-icon"><img src="../static/image/court.svg"></div>
+                            <a class="school-name">湖南大学经济与贸易学院</a>
+                        </div>
+                            </div>
+                    </div>
+                </div>
+                <div align="center">Page</div>
+            </div>
+        </div>
+    </div>
+    <div id="footer"><!--{#        页脚，网站地图、版权信息、备案信息#}-->
+        <div>支持：国家级大学生创新创业训练计划项目“面向非正式科学交流分析的‘世界一流高校’学术报告数据平台建设”（202010486032）</div>
+        <div>CopyRight © 2019-2021 DFCReport</div>
+        <div id="beian">
+        <a target="_blank" href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=42010602004261" style="display:inline-block; text-decoration:none;">
+<p style="float:left;height:10px;margin: 0px 0px 0px 5px; color:#939393;">鄂公网安备 42010602004261号</p></a>
+        <img src="../static/image/beian.png" />
+            <a target="_blank" href="http://beian.miit.gov.cn/" style="display:inline-block; text-decoration:none;">
+<p style="float:left;height:10px;margin: 0px 5px 0px 0px; color:#939393;">赣ICP备20002056号-2</p></a>
+        </div>
+        </div>
+</body>
+</html>
