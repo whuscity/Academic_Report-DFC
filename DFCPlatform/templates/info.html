@@ -85,25 +85,26 @@
             <div id="breadcrumb">
                 您当前的位置： Bread > Crumb > Breadcrumb
             </div>
+            {% for item in items %}
             <div id="article">
-                <div class="title">贸易自由化、职业选择与异质劳动力在企业间的再配置</div>
+                <div class="title">{{ item.title }}</div>
                 <div class="subtitle">
-                    孙楚仁 / 西南财经大学国际商学院 <br /> 2018年6月6日
+                    {{ item.schName }} / {{ item.schSchool }} <br /> {{ item.date }}
                 </div>
                 <div id="basicinfo">
                     <div class="sectionTitle">基本信息</div>
                     <table border="0">
                         <tr>
                             <th>报告主题：</th>
-                            <th class="col2">贸易自由化、职业选择与异质劳动力在企业间的再配置</th>
+                            <th class="col2">{{ item.title }}</th>
                             <th>报告学者：</th>
-                            <th class="col4">孙楚仁 教授</th>
+                            <th class="col4">{{ item.schName }} {{ item.schTitle if item.schTitle else "" }}</th>
                         </tr>
                         <tr>
                             <th>报告时间：</th>
-                            <th class="col2">2018年6月6日</th>
-                            <th>学者院系：</th>
-                            <th class="col4">西南财经大学国际商学院</th>
+                            <th class="col2">{{ item.date }}</th>
+                            <th>{{ "学者院系：" if item.schSchool else ""}}</th>
+                            <th class="col4">{{ item.schSchool if item.schSchool else "" }}</th>
                         </tr>
                         <tr>
                             <th></th>
@@ -113,7 +114,7 @@
                         </tr>
                         <tr>
                             <th>报告地点：</th>
-                            <th class="col2">湖南大学经济与贸易学院</th>
+                            <th class="col2">{{ item.hostSchool }}</th>
                             <th></th>
                             <th class="col4"></th>
                         </tr>
@@ -124,10 +125,10 @@
                             <th class="col4">&nbsp;</th>
                         </tr>
                         <tr>
-                            <th>主持人：</th>
-                            <th class="col2">祝树金 教授</th>
-                            <th>邀请人：</th>
-                            <th class="col4"></th>
+                            <th>{{ "主持人：" if item.hostName else "" }}</th>
+                            <th class="col2">{{ item.hostName if item.hostName else "" }} {{ item.hostTitle if item.hostTitle else ""  }}</th>
+                            <th>{{ "邀请人：" if item.inviteName else "" }}</th>
+                            <th class="col4">{{ item.inviteName if item.inviteName else "" }} {{ item.inviteTitle if item.inviteTitle else "" }}</th>
                         </tr>
                     </table>
                 </div>
@@ -152,12 +153,12 @@
                 <div>
                     <br />
                     <br />
-                    <a href="#" id="originurl">来&#12288源：湖南大学经济与贸易学院</a><br />
-                    <a> 上一条：Copula-Based Time Series with Filtered Nonstationarity </a><br />
-                    <a> 下一条：中国的气候-经济关系与长期损失 </a>
+                    来&#12288源：<a href="{{item.url}}" id="originurl"> {{ item.hostSchool }}</a><br />
+                    上一条：<a href="{{ "/info/" + item.prevId  if item.prevId else "#"}}"> {{ item.prevTitle }} </a><br />
+                    下一条：<a href="{{ "/info/" + item.nextId  if item.nextId else "#"}}"> {{ item.nextTitle }} </a>
                 </div>
             </div>
-
+            {% endfor %}
         </div>
         <div style="clear:both"></div>
     </div>

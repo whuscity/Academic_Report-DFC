@@ -1,5 +1,6 @@
 from flask import Flask,render_template
-
+from listpage import item, get_list
+from infopage import item, getinfo
 app = Flask(__name__)
 
 
@@ -9,11 +10,16 @@ def indexpage():
 
 @app.route('/list/')
 def listpage():
-    return render_template('list.html')
+    # 默认渲染
+    items = get_list()
+    return render_template('list.html',items = items)
 
-@app.route('/info/')
-def infopage():
-    return render_template('index.html')
+    # 条件渲染
+
+@app.route('/info/<id>')
+def infopage(id):
+    items = getinfo(id)
+    return render_template('info.html',items=items)
 
 
 if __name__ == '__main__':

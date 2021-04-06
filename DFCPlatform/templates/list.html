@@ -107,141 +107,23 @@
                     </div>
                 </div>
                 <div id="items">
+                    {% for item in items %}
                     <div class="listitem">
                         <input type="checkbox">
-                        <a class="itemheading" href="#">贸易自由化、职业选择与异质劳动力在企业间的再配置</a>
-                        <div class="itemdate"><i>2018年6月6日</i></div>
+                        <a class="itemheading" href="{{ '/info/' + item.id_source }}">{{ item.title }}</a>
+                        <div class="itemdate"><i>{{ item.date }}</i></div>
                         <div class="iteminfo">
                         <div class="reporter">
                             <div class="reporter-icon"><img src="../static/image/defaultusericon.svg"></div>
-                            <a class="reporter-name-school">孙楚仁&nbsp;（西南财经大学国际商学院）</a>
+                            <a class="reporter-name-school">{{ item.schName }}&nbsp;{{ "（"+item.schSchool+"）" if item.schSchool else "" }}</a>
                         </div>
                         <div class="school">
                             <div class="school-icon"><img src="../static/image/court.svg"></div>
-                            <a class="school-name">湖南大学经济与贸易学院</a>
+                            <a class="school-name">{{ item.hostSchool }}</a>
                         </div>
                             </div>
                     </div>
-                    <div class="listitem">
-                        <input type="checkbox">
-                        <a class="itemheading" href="#">贸易自由化、职业选择与异质劳动力在企业间的再配置</a>
-                        <div class="itemdate"><i>2018年6月6日</i></div>
-                        <div class="iteminfo">
-                        <div class="reporter">
-                            <div class="reporter-icon"><img src="../static/image/defaultusericon.svg"></div>
-                            <a class="reporter-name-school">孙楚仁&nbsp;（西南财经大学国际商学院）</a>
-                        </div>
-                        <div class="school">
-                            <div class="school-icon"><img src="../static/image/court.svg"></div>
-                            <a class="school-name">湖南大学经济与贸易学院</a>
-                        </div>
-                            </div>
-                    </div>
-                    <div class="listitem">
-                        <input type="checkbox">
-                        <a class="itemheading" href="#">贸易自由化、职业选择与异质劳动力在企业间的再配置</a>
-                        <div class="itemdate"><i>2018年6月6日</i></div>
-                        <div class="iteminfo">
-                        <div class="reporter">
-                            <div class="reporter-icon"><img src="../static/image/defaultusericon.svg"></div>
-                            <a class="reporter-name-school">孙楚仁&nbsp;（西南财经大学国际商学院）</a>
-                        </div>
-                        <div class="school">
-                            <div class="school-icon"><img src="../static/image/court.svg"></div>
-                            <a class="school-name">湖南大学经济与贸易学院</a>
-                        </div>
-                            </div>
-                    </div>
-                    <div class="listitem">
-                        <input type="checkbox">
-                        <a class="itemheading" href="#">贸易自由化、职业选择与异质劳动力在企业间的再配置</a>
-                        <div class="itemdate"><i>2018年6月6日</i></div>
-                        <div class="iteminfo">
-                        <div class="reporter">
-                            <div class="reporter-icon"><img src="../static/image/defaultusericon.svg"></div>
-                            <a class="reporter-name-school">孙楚仁&nbsp;（西南财经大学国际商学院）</a>
-                        </div>
-                        <div class="school">
-                            <div class="school-icon"><img src="../static/image/court.svg"></div>
-                            <a class="school-name">湖南大学经济与贸易学院</a>
-                        </div>
-                            </div>
-                    </div>
-                    <div class="listitem">
-                        <input type="checkbox">
-                        <a class="itemheading" href="#">贸易自由化、职业选择与异质劳动力在企业间的再配置</a>
-                        <div class="itemdate"><i>2018年6月6日</i></div>
-                        <div class="iteminfo">
-                        <div class="reporter">
-                            <div class="reporter-icon"><img src="../static/image/defaultusericon.svg"></div>
-                            <a class="reporter-name-school">孙楚仁&nbsp;（西南财经大学国际商学院）</a>
-                        </div>
-                        <div class="school">
-                            <div class="school-icon"><img src="../static/image/court.svg"></div>
-                            <a class="school-name">湖南大学经济与贸易学院</a>
-                        </div>
-                            </div>
-                    </div>
-                    <div class="listitem">
-                        <input type="checkbox">
-                        <a class="itemheading" href="#">贸易自由化、职业选择与异质劳动力在企业间的再配置</a>
-                        <div class="itemdate"><i>2018年6月6日</i></div>
-                        <div class="iteminfo">
-                        <div class="reporter">
-                            <div class="reporter-icon"><img src="../static/image/defaultusericon.svg"></div>
-                            <a class="reporter-name-school">孙楚仁&nbsp;（西南财经大学国际商学院）</a>
-                        </div>
-                        <div class="school">
-                            <div class="school-icon"><img src="../static/image/court.svg"></div>
-                            <a class="school-name">湖南大学经济与贸易学院</a>
-                        </div>
-                            </div>
-                    </div>
-                    <div class="listitem">
-                        <input type="checkbox">
-                        <a class="itemheading" href="#">贸易自由化、职业选择与异质劳动力在企业间的再配置</a>
-                        <div class="itemdate"><i>2018年6月6日</i></div>
-                        <div class="iteminfo">
-                        <div class="reporter">
-                            <div class="reporter-icon"><img src="../static/image/defaultusericon.svg"></div>
-                            <a class="reporter-name-school">孙楚仁&nbsp;（西南财经大学国际商学院）</a>
-                        </div>
-                        <div class="school">
-                            <div class="school-icon"><img src="../static/image/court.svg"></div>
-                            <a class="school-name">湖南大学经济与贸易学院</a>
-                        </div>
-                            </div>
-                    </div>
-                    <div class="listitem">
-                        <input type="checkbox">
-                        <a class="itemheading" href="#">贸易自由化、职业选择与异质劳动力在企业间的再配置</a>
-                        <div class="itemdate"><i>2018年6月6日</i></div>
-                        <div class="iteminfo">
-                        <div class="reporter">
-                            <div class="reporter-icon"><img src="../static/image/defaultusericon.svg"></div>
-                            <a class="reporter-name-school">孙楚仁&nbsp;（西南财经大学国际商学院）</a>
-                        </div>
-                        <div class="school">
-                            <div class="school-icon"><img src="../static/image/court.svg"></div>
-                            <a class="school-name">湖南大学经济与贸易学院</a>
-                        </div>
-                            </div>
-                    </div>
-                    <div class="listitem">
-                        <input type="checkbox">
-                        <a class="itemheading" href="#">贸易自由化、职业选择与异质劳动力在企业间的再配置</a>
-                        <div class="itemdate"><i>2018年6月6日</i></div>
-                        <div class="iteminfo">
-                        <div class="reporter">
-                            <div class="reporter-icon"><img src="../static/image/defaultusericon.svg"></div>
-                            <a class="reporter-name-school">孙楚仁&nbsp;（西南财经大学国际商学院）</a>
-                        </div>
-                        <div class="school">
-                            <div class="school-icon"><img src="../static/image/court.svg"></div>
-                            <a class="school-name">湖南大学经济与贸易学院</a>
-                        </div>
-                            </div>
-                    </div>
+                    {% endfor %}
                 </div>
                 <div align="center">Page</div>
             </div>
