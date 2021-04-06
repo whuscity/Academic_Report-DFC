@@ -9,4 +9,6 @@ extraction/db_operation/getdb.py
 
 *pycache*
 
+# secret configuration file
+*config_param.py*
 

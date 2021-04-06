@@ -3,6 +3,7 @@ from datetime import datetime
 import pandas as pd
 import os
 import pymysql
+from config_param import RDS_Chengdu as DBConfig
 
 
 '''文本内容样例：
@@ -33,11 +34,12 @@ rootdir = './sampledata'
 school_id_list = [44,730]
 
 print(school_id_list)
-conn = pymysql.connect(host = 'rm-2vc95e0mmyd1dwo28so.mysql.cn-chengdu.rds.aliyuncs.com',
-                       port = 3306,
-                       user = 'dfc',
-                       passwd = 'whu_dfc2020',
-                       db = 'dfc_report')
+hostD,portD,userD,passwdD,dbD = DBConfig()
+conn = pymysql.connect(host = hostD,
+                       port = portD,
+                       user = userD,
+                       passwd = passwdD,
+                       db = dbD)
 cursor = conn.cursor()
 sql = '''
 INSERT INTO report

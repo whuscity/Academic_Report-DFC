@@ -1,5 +1,5 @@
 import pymysql
-from db_operation.getdb import get_db
+from db_operation.config_param import get_db
 
 def exesql(sql):
     hostD, portD, userD, passwdD, dbD, charsetD = get_db()
