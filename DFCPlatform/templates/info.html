@@ -14,77 +14,119 @@
     <title>DFCReport - 双一流学术报告交流信息聚合平台</title>
 </head>
 <body>
-    <div id="header"><!--{#        题头，含logo标题、用户、菜单#}-->
+     <div class="col-md-12 row" id="header"><!--{#        题头，含logo标题、用户、菜单#}-->
 
-        <div id="logo">
-            <div class="fl" style="height:100%">
-                <img src="../static/image/whuicon.png" style="height:100%" />
+        <div class="col-md-9" id="logo">
+            <div class="fl col-md-1">
+                <img style="height:90px" src="../static/image/logo.png" />
             </div>
-            <div class="fl">
-                <div id="maintitle">DFCReport</div>
-                <div id="subtitle">双一流学术报告信息聚合平台</div>
-            </div>
-
         </div>
 
-        <div id="menus">
-            <div id="usericon">
-                <img src="../static/image/defaultusericon.svg" style="height:100%">
+        <div class="col-md-3 row" id="menus">
+            <div class="col-md-3"></div>
+            <div class="col-md-3" id="qicon">
+                <img src="../static/image/plane.png"  alt="q_icon" style="height:60px;margin-top: 20px"/>
             </div>
-            <div id="menuicon">
-                <img src="../static/image/defaultusericon.svg" style="height:100%">
+            <div class="col-md-3" id="micon">
+                <img src="../static/image/setting.png" alt="m_icon" style="height:60px;margin-top: 20px"/>
             </div>
-            <div id="questionicon">
-                <img src="../static/image/defaultusericon.svg" style="height:100%">
+            <div class="col-md-3" id="uicon">
+                <img src="../static/image/user.png" alt="u_icon" style="height:60px;margin-top: 20px"/>
             </div>
         </div>
     </div>
-    <div id="navbar"><!--{#        导航栏，含一级页面及搜索框#}-->
-        <div id="bar">
-            <div class="navi">
-                <a href="/">首页原型</a>
+<nav class="navbar navbar-expand-lg navbar-dark col-md-12" style="background-color: #136687;">
+
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+        <li class="nav-item">
+            <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true"></a>
+        </li>
+        <li class="nav-item active">
+            <a class="nav-link" href="/">网站首页 <span class="sr-only">(current)</span></a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true"></a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="/list">报告列表</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true"></a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="#">交流分析</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true"></a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="#">分类聚合</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true"></a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="/about">关于团队</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true"></a>
+        </li>
+    </ul>
+    <form class="form-inline my-2 my-lg-0">
+      <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+      <button class="btn btn-primary my-2 my-sm-0" type="submit" style="color:white;">搜索</button>
+    </form>
+  </div>
+</nav>
+    <div class="col-md-12 row" id="main">
+    <div class="col-md-12"><br /></div>
+        <div class="col-md-3" id="left">
+            <div class="card border-info">
+              <h5 class="card-header">相关链接</h5>
+              <div class="card-body">
+                 <ul class="list-group list-group-flush">
+                    <li class="list-group-item">武汉大学信息管理学院</li>
+                    <li class="list-group-item">南京大学信息管理学院</li>
+                    <li class="list-group-item">华中师范大学信息管理学院</li>
+                  </ul>
+              </div>
             </div>
-            <div class="navi">
-                <a href="/list">列表原型</a>
-            </div>
-            <div class="navi">
-                <a href="/info">详情原型</a>
-            </div>
-            <div class="navi">
-                <a href="#">占位占位</a>
-            </div>
-            <div class="navi">
-                <a href="#">占位占位</a>
-            </div>
-        </div>
-        <div class="searchbox">
-            <label style="height:100%">
-                <input style="height:100%;border: none;border-radius:10px;padding-left:10px">
-            </label>
-            <button id="search">搜</button>
-        </div>
-    </div>
-    <div id="main">
-        <div id="left">
-            <div class="box" id="links">
-                <div class="box-header">相关链接</div>
-                <div class="box-contain">
-                        <a>· 武汉大学信息管理学院</a><br />
-                        <a>· 南京大学信息管理学院</a><br />
-                        <a>· 华中师范大学信息管理学院</a><br />
+            <br />
+            {% for item in items %}
+            <div class="card mb-3 border-primary" style="max-width: 540px;">
+              <div class="row no-gutters">
+                <div class="col-md-4">
+                  <img src="../static/image/defaultusericon.svg" alt="icon">
                 </div>
-            </div>
-            <div class="box" id="links">
-                <div class="box-header">评论？</div>
-                <div class="box-contain">
-                        <a>· 没有评论。我觉得搞个评论好像太麻烦了，但是不知道这里放什么板块。</a><br />
+                <div class="col-md-8">
+                  <div class="card-body">
+                    <h5 class="card-title">{{ item.reporter_name }}</h5>
+                    <p class="card-text"><small class="text-muted">{{ item.reporter_school }} <br /> {{ item.reporter_title }} </small></p>
+                    <p class="card-text">这位学者还没有简介</p>
+                  </div>
                 </div>
+              </div>
+            </div>
+            {% endfor %}
+            <br />
+            <div class="card border-info">
+              <h5 class="card-header">反馈</h5>
+              <div class="card-body">
+                <h5 class="card-title">向我们报告信息的错误</h5>
+                <p class="card-text">发现本条报告有问题？例如信息缺失、信息错误等。欢迎向我们反馈。</p>
+                <a href="#" class="btn btn-primary">立即反馈</a>
+              </div>
             </div>
         </div>
-        <div id="right">
-            <div id="breadcrumb">
-                您当前的位置： Bread > Crumb > Breadcrumb
-            </div>
+        <div class="col-md-9" id="right">
+            <nav aria-label="breadcrumb">
+              <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="/">Home</a></li>
+                <li class="breadcrumb-item"><a href="/list">List</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Info</li>
+              </ol>
+            </nav>
             {% for item in items %}
             <div id="article">
                 <div class="title">{{ item.topic }}</div>
@@ -151,8 +193,7 @@
                     </table>
                 </div>
                 <div>
-                    <br />
-                    <br />
+                    <br /><br />
 {#                    来&#12288源：<a href="{{item.url}}" id="originurl"> {{ item.hostSchool }}</a><br />#}
 {#                    上一条：<a href="{{ "/info/" + item.prevId  if item.prevId else "#"}}"> {{ item.prevTitle }} </a><br />#}
 {#                    下一条：<a href="{{ "/info/" + item.nextId  if item.nextId else "#"}}"> {{ item.nextTitle }} </a>#}
@@ -162,15 +203,16 @@
         </div>
         <div style="clear:both"></div>
     </div>
-    <div id="footer"><!--{#        页脚，网站地图、版权信息、备案信息#}-->
-        <div>支持：国家级大学生创新创业训练计划项目“面向非正式科学交流分析的‘世界一流高校’学术报告数据平台建设”（202010486032）</div>
-        <div>CopyRight © 2019-2021 DFCReport</div>
-        <div id="beian">
-        <a target="_blank" href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=42010602004261" style="display:inline-block; text-decoration:none;">
-<p style="float:left;height:10px;margin: 0px 0px 0px 5px; color:#939393;">鄂公网安备 42010602004261号</p></a>
-        <img src="../static/image/beian.png" />
-            <a target="_blank" href="http://beian.miit.gov.cn/" style="display:inline-block; text-decoration:none;">
-<p style="float:left;height:10px;margin: 0px 5px 0px 0px; color:#939393;">赣ICP备20002056号-2</p></a>
+     <br /><br /><br /><br /><br /><br /><br /><br />
+    <div class="jumbotron col-md-12" id="footer"><!--{#        页脚，网站地图、版权信息、备案信息#}-->
+        <div class="col-md-12"><p class="text-center">支持：国家级大学生创新创业训练计划项目“面向非正式科学交流分析的‘世界一流高校’学术报告数据平台建设”（202010486032）</p></div>
+        <div class="col-md-12"><p class="text-center">CopyRight © 2019-2021 DFCReport</p></div>
+        <div class="col-md-12 row" id="beian">
+        <a class="col-md-6" target="_blank" href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=42010602004261" style="display:inline-block; text-decoration:none;">
+<p class="text-right" style="color:#939393;">鄂公网安备 42010602004261号</p></a>
+        <img src="../static/image/beian.png" style="height:15px"/>
+            <a class="col-md-5" target="_blank" href="http://beian.miit.gov.cn/" style="display:inline-block; text-decoration:none;">
+<p class="text-left" style="color:#939393;">赣ICP备20002056号-2</p></a>
         </div>
         </div>
 </body>
