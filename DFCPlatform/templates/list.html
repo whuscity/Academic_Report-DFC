@@ -107,25 +107,51 @@
                     </div>
                 </div>
                 <div id="items">
-                    {% for item in items %}
+                    {% for item in reports.items %}
                     <div class="listitem">
                         <input type="checkbox">
-                        <a class="itemheading" href="{{ '/info/' + item.id_source }}">{{ item.topic }}</a>
+                        <div  class="itemheading" style="white-space:nowrap;overflow:hidden;text-overflow: ellipsis;"><a href="{{ '/info/' + item.id_source }}" style="text-decoration: none;color:black;">{{ item.topic }}</a></div>
                         <div class="itemdate"><i>{{ item.date }}</i></div>
                         <div class="iteminfo">
                         <div class="reporter">
                             <div class="reporter-icon"><img src="../static/image/defaultusericon.svg"></div>
-                            <a class="reporter-name-school">{{ item.reporter_name }}&nbsp;{{ "（"+item.reporter_school+"）" if item.reporter_school else "" }}</a>
+                            <div style="white-space:nowrap;overflow:hidden;text-overflow: ellipsis;"><a class="reporter-name-school" href="#" style="text-decoration: none;" >{{ item.reporter_name }}&nbsp;{{ ("（"+item.reporter_school + "）") if item.reporter_school else "" }}</a></div>
                         </div>
                         <div class="school">
                             <div class="school-icon"><img src="../static/image/court.svg"></div>
-                            <a class="school-name">{{ item.host_school }}</a>
+                            <div style="white-space:nowrap;overflow:hidden;text-overflow: ellipsis;"><a class="school-name" href="#" style="text-decoration: none;">{{ item.host_school }}</a>  </div>
                         </div>
                             </div>
                     </div>
                     {% endfor %}
                 </div>
-                <div align="center">Page</div>
+            <br />
+            <div align="center">&nbsp;Page</div>
+                <nav aria-label="Page navigation example">
+                  <ul class="pagination justify-content-center">
+                    <li class="page-item {{ "disabled" if pageNum <= 2 else "" }}">
+                      <a class="page-link" href="/list/{{ pageNum-1 }}" aria-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                      </a>
+                    </li>
+                  {% if pageNum >= 3 %}
+                      <li class="page-item"><a class="page-link" href="/list/{{ 1 }}">1</a></li>
+                    <li class="page-item disabled"><a class="page-link">···</a></li>
+                  {% endif %}
+                  {% for i in range(start,end) %}
+                  <li class="page-item {{ "active" if i==pageNum else "" }}"><a class="page-link" href="/list/{{ i }}">{{ i }}</a></li>
+                  {% endfor %}
+                  {% if pageNum < maxPage - 1 %}
+                    <li class="page-item disabled"><a class="page-link">···</a></li>
+                      <li class="page-item"><a class="page-link" href="/list/{{ maxPage }}">{{ maxPage }}</a></li>
+                  {% endif %}
+                    <li class="page-item {{ "disabled" if pageNum >= maxPage else "" }}">
+                      <a class="page-link" href="/list/{{ pageNum+1 }}" aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                      </a>
+                    </li>
+                  </ul>
+                </nav>
             </div>
         </div>
     </div>

@@ -51,10 +51,14 @@ def indexpage():
     return render_template('index.html')
 
 @app.route('/list/')
-def listpage():
+@app.route('/list/<int:page>')
+def listpage(page=1,PER_PAGE=10):
     # 默认渲染
-    items = Report.query.limit(10).all()
-    return render_template('list.html',items = items)
+    reports = Report.query.paginate(page,per_page=PER_PAGE)
+    maxPage = len(Report.query.all())//PER_PAGE
+    start = max(1,page-1)
+    end = min(maxPage+1,page+2)
+    return render_template('list.html',reports = reports, pageNum = page, maxPage=maxPage,start = start, end=end)
 
     # 条件渲染
 
