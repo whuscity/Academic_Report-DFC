@@ -9,3 +9,6 @@ pandas==1.1.2
 Flask==1.1.2
 Flask-Cors==3.0.9
 Flask-Pagination==0.0.1
+Flask-SQLAlchemy==2.5.1
+SQLAlchemy==1.4.6
+

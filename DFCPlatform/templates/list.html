@@ -110,16 +110,16 @@
                     {% for item in items %}
                     <div class="listitem">
                         <input type="checkbox">
-                        <a class="itemheading" href="{{ '/info/' + item.id_source }}">{{ item.title }}</a>
+                        <a class="itemheading" href="{{ '/info/' + item.id_source }}">{{ item.topic }}</a>
                         <div class="itemdate"><i>{{ item.date }}</i></div>
                         <div class="iteminfo">
                         <div class="reporter">
                             <div class="reporter-icon"><img src="../static/image/defaultusericon.svg"></div>
-                            <a class="reporter-name-school">{{ item.schName }}&nbsp;{{ "（"+item.schSchool+"）" if item.schSchool else "" }}</a>
+                            <a class="reporter-name-school">{{ item.reporter_name }}&nbsp;{{ "（"+item.reporter_school+"）" if item.reporter_school else "" }}</a>
                         </div>
                         <div class="school">
                             <div class="school-icon"><img src="../static/image/court.svg"></div>
-                            <a class="school-name">{{ item.hostSchool }}</a>
+                            <a class="school-name">{{ item.host_school }}</a>
                         </div>
                             </div>
                     </div>

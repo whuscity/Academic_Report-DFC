@@ -87,24 +87,24 @@
             </div>
             {% for item in items %}
             <div id="article">
-                <div class="title">{{ item.title }}</div>
+                <div class="title">{{ item.topic }}</div>
                 <div class="subtitle">
-                    {{ item.schName }} / {{ item.schSchool }} <br /> {{ item.date }}
+                    {{ item.reporter_name }} / {{ item.reporter_school }} <br /> {{ item.date }}
                 </div>
                 <div id="basicinfo">
                     <div class="sectionTitle">基本信息</div>
                     <table border="0">
                         <tr>
                             <th>报告主题：</th>
-                            <th class="col2">{{ item.title }}</th>
+                            <th class="col2">{{ item.topic }}</th>
                             <th>报告学者：</th>
-                            <th class="col4">{{ item.schName }} {{ item.schTitle if item.schTitle else "" }}</th>
+                            <th class="col4">{{ item.reporter_name }} {{ item.reporter_title if item.reporter_title else "" }}</th>
                         </tr>
                         <tr>
                             <th>报告时间：</th>
                             <th class="col2">{{ item.date }}</th>
-                            <th>{{ "学者院系：" if item.schSchool else ""}}</th>
-                            <th class="col4">{{ item.schSchool if item.schSchool else "" }}</th>
+                            <th>{{ "学者院系：" if item.reporter_school else ""}}</th>
+                            <th class="col4">{{ item.reporter_school if item.reporter_school else "" }}</th>
                         </tr>
                         <tr>
                             <th></th>
@@ -114,7 +114,7 @@
                         </tr>
                         <tr>
                             <th>报告地点：</th>
-                            <th class="col2">{{ item.hostSchool }}</th>
+                            <th class="col2">{{ item.host_school }}</th>
                             <th></th>
                             <th class="col4"></th>
                         </tr>
@@ -125,10 +125,10 @@
                             <th class="col4">&nbsp;</th>
                         </tr>
                         <tr>
-                            <th>{{ "主持人：" if item.hostName else "" }}</th>
-                            <th class="col2">{{ item.hostName if item.hostName else "" }} {{ item.hostTitle if item.hostTitle else ""  }}</th>
-                            <th>{{ "邀请人：" if item.inviteName else "" }}</th>
-                            <th class="col4">{{ item.inviteName if item.inviteName else "" }} {{ item.inviteTitle if item.inviteTitle else "" }}</th>
+                            <th>{{ "主持人：" if item.host_name else "" }}</th>
+                            <th class="col2">{{ item.host_name if item.host_name else "" }} {{ item.host_title if item.hostTitle else ""  }}</th>
+                            <th>{{ "邀请人：" if item.inviter_name else "" }}</th>
+                            <th class="col4">{{ item.inviter_name if item.inviter_name else "" }} {{ item.inviter_title if item.inviter_title else "" }}</th>
                         </tr>
                     </table>
                 </div>
@@ -153,9 +153,9 @@
                 <div>
                     <br />
                     <br />
-                    来&#12288源：<a href="{{item.url}}" id="originurl"> {{ item.hostSchool }}</a><br />
-                    上一条：<a href="{{ "/info/" + item.prevId  if item.prevId else "#"}}"> {{ item.prevTitle }} </a><br />
-                    下一条：<a href="{{ "/info/" + item.nextId  if item.nextId else "#"}}"> {{ item.nextTitle }} </a>
+{#                    来&#12288源：<a href="{{item.url}}" id="originurl"> {{ item.hostSchool }}</a><br />#}
+{#                    上一条：<a href="{{ "/info/" + item.prevId  if item.prevId else "#"}}"> {{ item.prevTitle }} </a><br />#}
+{#                    下一条：<a href="{{ "/info/" + item.nextId  if item.nextId else "#"}}"> {{ item.nextTitle }} </a>#}
                 </div>
             </div>
             {% endfor %}
