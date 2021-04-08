@@ -42,14 +42,14 @@
         <li class="nav-item">
             <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true"></a>
         </li>
-        <li class="nav-item active">
-            <a class="nav-link" href="/">网站首页 <span class="sr-only">(current)</span></a>
+        <li class="nav-item">
+            <a class="nav-link" href="/">网站首页</a>
         </li>
         <li class="nav-item">
             <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true"></a>
         </li>
-        <li class="nav-item">
-            <a class="nav-link" href="/list">报告列表</a>
+        <li class="nav-item active">
+            <a class="nav-link" href="/list">报告列表 <span class="sr-only">(current)</span></a>
         </li>
         <li class="nav-item">
             <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true"></a>
@@ -124,7 +124,7 @@
             <div class="col-md-12 col-xs-12 row ml-3">
                     {% for item in reports.items %}
 
-                    <div class="card row mb-2">
+                    <div class="card row mb-2" style="width: 61.5rem;">
                     <div class="col-md-12 col-xs-12 row">
                         <div class="col-md-12 col-xs-12 row">
                             <h5 class="col-md-10 card-title" style="white-space:nowrap;overflow:hidden;text-overflow: ellipsis;"><div style="float:left"><input type="checkbox" /></div><a href="{{ '/info/' + item.id_source }}" style="text-decoration: none;color:black;">{{ item.topic }}</a></h5>
@@ -132,11 +132,11 @@
                         </div>
                         <div class="col-md-12 row">
                             <div class="col-md-5 reporter">
-                                <div class="reporter-icon"><img src="../static/image/defaultusericon.svg"></div>
+                                <div class="reporter-icon"><img src="../static/image/defaultusericon.svg" style="height:20px;float:left;margin-top: 3px"></div>
                                 <div style="white-space:nowrap;overflow:hidden;text-overflow: ellipsis;"><a class="reporter-name-school" href="#" style="text-decoration: none;" >{{ item.reporter_name }}&nbsp;{{ ("（"+item.reporter_school + "）") if item.reporter_school else "" }}</a></div>
                             </div>
                             <div class="col-md-5 school">
-                                <div class="school-icon"><img src="../static/image/court.svg"></div>
+                                <div class="school-icon"><img src="../static/image/court.svg" style="height:20px;float:left;margin-top: 3px"></div>
                                 <div style="white-space:nowrap;overflow:hidden;text-overflow: ellipsis;"><a class="school-name" href="#" style="text-decoration: none;">{{ item.host_school }}</a>  </div>
                             </div>
                         </div>
