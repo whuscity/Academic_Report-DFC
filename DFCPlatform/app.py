@@ -147,6 +147,7 @@ def infopage(id):
     print(scholars,inviter_id,host_id,reporter_id)
     return render_template('info.html', item=report,scholars= scholars if len(scholars)>=1 else None)
 
+
 @app.route('/cluster/school/<id>')
 @app.route('/cluster/school/<id>/<int:page>')
 def schoolpage(id, page=1, PER_PAGE=10):
@@ -156,6 +157,17 @@ def schoolpage(id, page=1, PER_PAGE=10):
     start = max(1, page - 1)
     end = min(maxPage + 1, page + 2)
     return render_template('list_by_school.html', reports=reports, university=university,pageNum=int(page), maxPage=maxPage, start=start, end=end)
+
+
+@app.route('/cluster/school')
+def cluster_school():
+    num = func.count('*').label('num')
+    universities = db.session.query(Report.id_univ,num).group_by(Report.id_univ).order_by(desc(num)).all()
+    ulist = []
+    for univ in universities:
+        ulist.append(univ[0])
+    selected_univs = db.session.query(distinct(University.id).label('id'),University.univ_name,University.logo,University.location).filter(University.id.in_(ulist)).all()
+    return render_template('cluster_school.html',universities=selected_univs)
 
 
 if __name__ == '__main__':

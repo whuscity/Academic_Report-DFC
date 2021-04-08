@@ -55,19 +55,19 @@
             <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true"></a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="#">交流分析</a>
+            <a class="nav-link toalert" href="#">交流分析</a>
         </li>
         <li class="nav-item">
             <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true"></a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="#">分类聚合</a>
+            <a class="nav-link" href="/cluster/school">分类聚合</a>
         </li>
         <li class="nav-item">
             <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true"></a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="/about">关于团队</a>
+            <a class="nav-link toalert" href="#">关于团队</a>
         </li>
         <li class="nav-item">
             <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true"></a>
@@ -75,7 +75,7 @@
     </ul>
     <form class="form-inline my-2 my-lg-0">
       <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-      <button class="btn btn-primary my-2 my-sm-0" type="submit" style="color:white;">搜索</button>
+      <a class="btn btn-primary my-2 my-sm-0 toalert" type="button" style="color:white;">搜索</a>
     </form>
   </div>
 </nav>
@@ -86,9 +86,9 @@
               <h5 class="card-header">相关链接</h5>
               <div class="card-body">
                  <ul class="list-group list-group-flush">
-                    <li class="list-group-item">武汉大学信息管理学院</li>
-                    <li class="list-group-item">南京大学信息管理学院</li>
-                    <li class="list-group-item">华中师范大学信息管理学院</li>
+                    <li class="list-group-item toalert">武汉大学信息管理学院</li>
+                    <li class="list-group-item toalert">南京大学信息管理学院</li>
+                    <li class="list-group-item toalert">华中师范大学信息管理学院</li>
                   </ul>
               </div>
             </div>
@@ -132,7 +132,7 @@
               <div class="card-body">
                 <h5 class="card-title">向我们报告信息的错误</h5>
                 <p class="card-text">发现本条报告有问题？例如信息缺失、信息错误等。欢迎向我们反馈。</p>
-                <a href="#" class="btn btn-primary">立即反馈</a>
+                <a href="#" class="btn btn-primary toalert">立即反馈</a>
               </div>
             </div>
         </div>
@@ -230,5 +230,27 @@
 <p class="text-left" style="color:#939393;">赣ICP备20002056号-2</p></a>
         </div>
         </div>
+<div class="position-fixed bottom-0 right-0 p-3" style="z-index: 5; right: 0; bottom: 0;">
+  <div id="liveToastInfo" class="toast hide" role="alert" aria-live="assertive" aria-atomic="true" data-autohide="true" data-animation="true" data-delay="5000">
+    <div class="toast-header bg-danger text-white">
+      <img src="/static/image/location_white.svg" class="rounded mr-2" alt="icon" style="height:18px">
+      <strong class="mr-auto">来自DFCR的通知</strong>
+      <small>刚刚</small>
+      <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="toast-body">
+      本站数据正在补充及增量建设中，考虑到数据完备性和运行性能限制，该功能暂未开放使用，敬请期待！
+    </div>
+  </div>
+</div>
 </body>
 </html>
+<script>
+    $('.toalert').click(function () {
+        $('#liveToastInfo').toast('show')
+    })
+
+
+</script>
