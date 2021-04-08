@@ -118,26 +118,26 @@
              <nav class="col-md-12" aria-label="breadcrumb">
               <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="/">Home</a></li>
-                <li class="breadcrumb-item active" aria-current="page">List[可选显示详情]</li>
+                <li class="breadcrumb-item active" aria-current="page">List</li>
               </ol>
             </nav>
             <div class="col-md-12 col-xs-12 row ml-3">
                     {% for item in reports.items %}
 
-                    <div class="card row mb-2" style="width: 61.5rem;">
+                    <div class="card row mb-2" style="width: 68rem;">
                     <div class="col-md-12 col-xs-12 row">
                         <div class="col-md-12 col-xs-12 row">
-                            <h5 class="col-md-10 card-title" style="white-space:nowrap;overflow:hidden;text-overflow: ellipsis;"><div style="float:left"><input type="checkbox" /></div><a href="{{ '/info/' + item.id_source }}" style="text-decoration: none;color:black;">{{ item.topic }}</a></h5>
-                            <div class="col-md-2"><i>{{ item.date }}</i></div>
+                            <h5 class="col-md-10 card-title" style="white-space:nowrap;overflow:hidden;text-overflow: ellipsis;"><div style="float:left"><input type="checkbox" /></div><a class="text-decoration-none" href="{{ '/info/' + item.id_source }}"><p class="font-weight-bold  text-body">{{ item.topic }}</p></a></h5>
+                            <div class="col-md-2">{{ item.date }}</div>
                         </div>
                         <div class="col-md-12 row">
                             <div class="col-md-5 reporter">
-                                <div class="reporter-icon"><img src="../static/image/defaultusericon.svg" style="height:20px;float:left;margin-top: 3px"></div>
-                                <div style="white-space:nowrap;overflow:hidden;text-overflow: ellipsis;"><a class="reporter-name-school" href="#" style="text-decoration: none;" >{{ item.reporter_name }}&nbsp;{{ ("（"+item.reporter_school + "）") if item.reporter_school else "" }}</a></div>
+                                <div class="reporter-icon"><img src="/static/image/defaultusericon.svg" style="height:20px;float:left;margin-top: 3px"></div>
+                                <div style="white-space:nowrap;overflow:hidden;text-overflow: ellipsis;"><a class="reporter-name-school text-decoration-none" href="#"><p class="text-secondary">{{ item.reporter_name }}&nbsp;{{ ("（"+item.reporter_school + "）") if item.reporter_school else "" }}</p></a></div>
                             </div>
                             <div class="col-md-5 school">
-                                <div class="school-icon"><img src="../static/image/court.svg" style="height:20px;float:left;margin-top: 3px"></div>
-                                <div style="white-space:nowrap;overflow:hidden;text-overflow: ellipsis;"><a class="school-name" href="#" style="text-decoration: none;">{{ item.host_school }}</a>  </div>
+                                <div class="school-icon"><img src="/static/image/court.svg" style="height:20px;float:left;margin-top: 3px"></div>
+                                <div style="white-space:nowrap;overflow:hidden;text-overflow: ellipsis;"><a class="school-name text-decoration-none" href="{{ ("/cluster/school/"+item.id_univ) if item.id_univ else "#" }}"><p class="text-secondary">{{ item.host_school }}</p></a>  </div>
                             </div>
                         </div>
 

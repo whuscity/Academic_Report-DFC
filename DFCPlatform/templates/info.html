@@ -93,22 +93,39 @@
               </div>
             </div>
             <br />
-            {% for item in items %}
+            {% if scholars %}
+            {% for scholar in scholars %}
             <div class="card mb-3 border-primary" style="max-width: 540px;">
               <div class="row no-gutters">
                 <div class="col-md-4">
-                  <img src="../static/image/defaultusericon.svg" alt="icon">
+                  <img src="{{ "https://downloads.mariozzj.cn/img/scholarIcon/"+scholar.icon_url if scholar.icon_url else "/static/image/defaultusericon.svg" }}" alt="icon" style="width:95%;margin-left: 5%;margin-top: 5%">
                 </div>
                 <div class="col-md-8">
                   <div class="card-body">
-                    <h5 class="card-title">{{ item.reporter_name }}</h5>
-                    <p class="card-text"><small class="text-muted">{{ item.reporter_school }} <br /> {{ item.reporter_title }} </small></p>
-                    <p class="card-text">这位学者还没有简介</p>
+                    <h5 class="card-title">{{ scholar.name }}</h5>
+                    <p class="card-text"><small class="text-muted">{{ scholar.school }} <br /> {{ scholar.title }} </small></p>
+                    <p class="card-text">{{ scholar.biography }}</p>
                   </div>
                 </div>
               </div>
             </div>
             {% endfor %}
+            {% else %}
+           <div class="card mb-3 border-primary" style="max-width: 540px;">
+              <div class="row no-gutters">
+                <div class="col-md-4">
+                  <img src="/static/image/defaultusericon.svg" alt="icon">
+                </div>
+                <div class="col-md-8">
+                  <div class="card-body">
+                    <h5 class="card-title">{{ item.reporter_name }}</h5>
+                    <p class="card-text"><small class="text-muted">{{ item.reporter_school }} <br /> {{ item.reporter_title }} </small></p>
+                    <p class="card-text">{{ "该学者暂无简介" }}</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            {% endif %}
             <br />
             <div class="card border-info">
               <h5 class="card-header">反馈</h5>
@@ -127,14 +144,13 @@
                 <li class="breadcrumb-item active" aria-current="page">Info</li>
               </ol>
             </nav>
-            {% for item in items %}
             <div id="article">
                 <div class="title">{{ item.topic }}</div>
                 <div class="subtitle">
                     {{ item.reporter_name }} / {{ item.reporter_school }} <br /> {{ item.date }}
                 </div>
                 <div id="basicinfo">
-                    <div class="sectionTitle">基本信息</div>
+                    <div class="sectionTitle font-weight-lighter">基本信息</div>
                     <table border="0">
                         <tr>
                             <th>报告主题：</th>
@@ -168,7 +184,7 @@
                         </tr>
                         <tr>
                             <th>{{ "主持人：" if item.host_name else "" }}</th>
-                            <th class="col2">{{ item.host_name if item.host_name else "" }} {{ item.host_title if item.hostTitle else ""  }}</th>
+                            <th class="col2">{{ item.host_name if item.host_name else "" }} {{ item.host_title if item.host_title else ""  }}</th>
                             <th>{{ "邀请人：" if item.inviter_name else "" }}</th>
                             <th class="col4">{{ item.inviter_name if item.inviter_name else "" }} {{ item.inviter_title if item.inviter_title else "" }}</th>
                         </tr>
@@ -176,30 +192,29 @@
                 </div>
 
                 <div id="detailedinfo">
-                    <div class="sectionTitle">详情信息</div>
+                    <div class="sectionTitle font-weight-lighter">详情信息</div>
                     <table border="0">
                         <tr>
-                            <th>报告摘要：</th>
-                            <th class="col6">孙楚仁，教授、博士生导师，上海市“曙光学者”，现为西南财经大学国际商学院副院长、地缘政治与经济研究所所长、西南财经大学校学术委员会成员，被聘为《国际商务研究》杂志编委成员、重庆师范大学特聘教授、新兴经济体论坛智库专家，中国区域科学协会常务理事、中国区域科学协会新经济地理专业委员会副秘书长、“全国高校国际贸易学科协作组”青年论坛副秘书长、地缘政治经济学年会固定召集人。主要从事国际贸易理论与政策、经济地理和地缘政治与经济领域的教学和研究工作，已在《经济研究》、《世界经济》、《数量经济技术经济研究》等国内外重要学术期刊发表论文40多篇。获2014年第十二届上海哲学社会科学优秀成果论文类二等奖、2013年第六届“黄达-蒙代尔经济学奖”、2012年第十七届安子介国际贸易优秀著作二等奖（排名第二）、2008年第九届上海市哲学社会科学著作类二等奖（排名第二）等奖励多项。主持国家自然科学基金、国家社科重大课题和国家自科重点课题子课题、上海市“曙光学者”项目等多项课题。</th>
+                            <th>{{ "报告摘要：" if item.abstract else "" }}</th>
+                            <th class="col6">{{ item.abstract if item.abstract else "报告摘要暂缺，可点击链接进入源网页查看详情。" }}</th>
                         </tr>
                         <tr>
                             <th></th>
                             <th class="col6">&nbsp;</th>
                         </tr>
                         <tr>
-                            <th>学者简介：</th>
-                            <th class="col6">孙楚仁，教授、博士生导师，上海市“曙光学者”，现为西南财经大学国际商学院副院长、地缘政治与经济研究所所长、西南财经大学校学术委员会成员，被聘为《国际商务研究》杂志编委成员、重庆师范大学特聘教授、新兴经济体论坛智库专家，中国区域科学协会常务理事、中国区域科学协会新经济地理专业委员会副秘书长、“全国高校国际贸易学科协作组”青年论坛副秘书长、地缘政治经济学年会固定召集人。主要从事国际贸易理论与政策、经济地理和地缘政治与经济领域的教学和研究工作，已在《经济研究》、《世界经济》、《数量经济技术经济研究》等国内外重要学术期刊发表论文40多篇。获2014年第十二届上海哲学社会科学优秀成果论文类二等奖、2013年第六届“黄达-蒙代尔经济学奖”、2012年第十七届安子介国际贸易优秀著作二等奖（排名第二）、2008年第九届上海市哲学社会科学著作类二等奖（排名第二）等奖励多项。主持国家自然科学基金、国家社科重大课题和国家自科重点课题子课题、上海市“曙光学者”项目等多项课题。</th>
+                            <th> </th>
+                            <th class="col6"></th>
                         </tr>
                     </table>
                 </div>
                 <div>
                     <br /><br />
-{#                    来&#12288源：<a href="{{item.url}}" id="originurl"> {{ item.hostSchool }}</a><br />#}
+                    来&#12288源：<a href="{{item.url}}" id="originurl"> {{ item.host_school }}</a><br />
 {#                    上一条：<a href="{{ "/info/" + item.prevId  if item.prevId else "#"}}"> {{ item.prevTitle }} </a><br />#}
 {#                    下一条：<a href="{{ "/info/" + item.nextId  if item.nextId else "#"}}"> {{ item.nextTitle }} </a>#}
                 </div>
             </div>
-            {% endfor %}
         </div>
         <div style="clear:both"></div>
     </div>
