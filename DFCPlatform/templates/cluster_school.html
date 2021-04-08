@@ -94,7 +94,7 @@
                 {% for university in universities %}
             <div class="col-md-2">
                 <div class="image-fluid col-md-12 media" style="height:60%"><a href="{{ ("/cluster/school/"+university.id) if university.id else "#universityList" }}"><img class="image-fluid col-md-12 align-self-center"  src="{{ ("https://downloads.mariozzj.cn/img/UnivLogo/"+university.logo) if university.logo else "/static/image/court.svg" }}"></a></div>
-                <div class="col-md-12 mt-3"><p class="h4 text-center">{{ university.univ_name }}</p></div>
+                <div class="col-md-12 mt-3"><p class="h4 text-center text-nowrap">{{ university.univ_name }}</p></div>
                 <div class="col-md-12"><p class="text-center">{{ university.location if university.location else "地点未知" }}</p></div>
             </div>
                 {% endfor %}
